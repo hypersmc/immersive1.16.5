@@ -1,0 +1,8 @@
+{
+  "__comment": "Add the following line on the same level as a 'model' declaration.",
+  "custom": { "flip-v": true },
+  "model": "theimmersivetech:block/solarsub.json",
+  "variants": {
+        "":    { "model": "theimmersivetech:block/solarsub" }
+    }
+}
