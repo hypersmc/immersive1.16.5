@@ -135,6 +135,9 @@ dependencies {
     // compile "some.group:artifact:version"
     implementation fg.deobf("curse.maven:the-one-probe-245211:3319255")
     implementation fg.deobf("curse.maven:jei-238222:3327383")
+    implementation fg.deobf("curse.maven:mekanism-268560:3206392")
+    implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
+
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env

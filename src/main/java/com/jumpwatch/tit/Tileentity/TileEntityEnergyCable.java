@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,8 +34,8 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
     protected boolean[] disconnectedSides;
     private int invalidateCountdown;
 
-    public TileEntityEnergyCable() {
-        super (TileentityRegistry.Energy_Cable_Base.get());
+    public TileEntityEnergyCable(TileEntityType<?> tileEntityTypeIn) {
+        super (tileEntityTypeIn);
         extractingSides = new boolean[Direction.values().length];
         disconnectedSides = new boolean[Direction.values().length];
     }

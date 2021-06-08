@@ -1,15 +1,26 @@
 package com.jumpwatch.tit.Blocks;
 
 import com.jumpwatch.tit.Tileentity.TileEntityEnergyCable;
+import com.jumpwatch.tit.Utils.IItemBlock;
+import com.jumpwatch.tit.Utils.Pair;
+import com.jumpwatch.tit.Utils.Triple;
+import com.jumpwatch.tit.Utils.VoxelUtils;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.entity.layers.EnergyLayer;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -17,11 +28,13 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.EnergyStorage;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.List;
 
-public abstract class BlockBaseEnergyCable extends Block {
+
+public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
     static final BooleanProperty has_data = BooleanProperty.create("has_data");
     public static final BooleanProperty down = BooleanProperty.create("down");
     public static final BooleanProperty up = BooleanProperty.create("up");
@@ -29,10 +42,141 @@ public abstract class BlockBaseEnergyCable extends Block {
     public static final BooleanProperty south = BooleanProperty.create("south");
     public static final BooleanProperty west = BooleanProperty.create("west");
     public static final BooleanProperty east = BooleanProperty.create("east");
+    //Voxels
+    public static final VoxelShape SHAPE_CORE = VoxelShapes.or(Block.box(5, 5, 5, 11, 11, 11));
+    public static final VoxelShape SHAPE_UP = VoxelShapes.or(Block.box(6, 11, 6, 10, 16, 10));
+    public static final VoxelShape SHAPE_DOWN = VoxelShapes.or(Block.box(6, 0, 6, 10, 5, 10));
+    public static final VoxelShape SHAPE_NORTH = VoxelShapes.or(Block.box(6, 6, 1, 10, 10, 5));
+    public static final VoxelShape SHAPE_SOUTH = VoxelShapes.or(Block.box(6, 6, 11, 10, 10, 15));
+    public static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(1, 6, 6, 5, 10, 10));
+    public static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(11, 6, 6, 15, 10, 10));
+
+    public static final VoxelShape SHAPE_EXTRACT_UP = VoxelUtils.combine(SHAPE_UP, Block.box(5, 15, 5, 11, 16, 11));
+    public static final VoxelShape SHAPE_EXTRACT_DOWN = VoxelUtils.combine(SHAPE_DOWN, Block.box(5, 0, 5, 11, 1, 11));
+    public static final VoxelShape SHAPE_EXTRACT_NORTH = VoxelUtils.combine(SHAPE_NORTH, Block.box(5, 5, 0, 11, 11, 1));
+    public static final VoxelShape SHAPE_EXTRACT_SOUTH = VoxelUtils.combine(SHAPE_SOUTH, Block.box(5, 5, 15, 11, 11, 16));
+    public static final VoxelShape SHAPE_EXTRACT_EAST = VoxelUtils.combine(SHAPE_EAST, Block.box(0, 5, 5, 1, 11, 11));
+    public static final VoxelShape SHAPE_EXTRACT_WEST = VoxelUtils.combine(SHAPE_WEST, Block.box(15, 5, 5, 16, 11, 11));
+
     // .setValue(HAS_DATA, false)
-    public BlockBaseEnergyCable(Properties p_i48440_1_) {
-        super(p_i48440_1_);
+    protected BlockBaseEnergyCable() {
+        super(AbstractBlock.Properties.of(Material.METAL));
         registerDefaultState(stateDefinition.any().setValue(has_data, false).setValue(up, false).setValue(down, false).setValue(north, false).setValue(south, false).setValue(west, false).setValue(east, false));
+    }
+    @Override
+    public Item toItem() {
+        return new BlockItem(this, new Item.Properties()).setRegistryName(getRegistryName());
+    }
+
+    @Override
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        Direction side = getSelection(state, worldIn, pos, player).getKey();
+        if (side != null) {
+            return onCableSideActivated(state, worldIn, pos, player, handIn, hit, side);
+        } else {
+            return super.use(state, worldIn, pos, player, handIn, hit);
+        }
+    }
+
+    public VoxelShape getSelectionShape(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+        Pair<Direction, VoxelShape> selection = getSelection(state, world, pos, player);
+
+        if (selection.getKey() == null) {
+            return getShape(world, pos, state, true);
+        }
+
+        return selection.getValue();
+    }
+
+    private static final List<Triple<VoxelShape, BooleanProperty, Direction>> SHAPES = Arrays.asList(
+            new Triple<>(SHAPE_NORTH, north, Direction.NORTH),
+            new Triple<>(SHAPE_SOUTH, south, Direction.SOUTH),
+            new Triple<>(SHAPE_WEST, west, Direction.WEST),
+            new Triple<>(SHAPE_EAST, east, Direction.EAST),
+            new Triple<>(SHAPE_UP, up, Direction.UP),
+            new Triple<>(SHAPE_DOWN, down, Direction.DOWN)
+    );
+
+    private static final List<Pair<VoxelShape, Direction>> EXTRACT_SHAPES = Arrays.asList(
+            new Pair<>(SHAPE_EXTRACT_NORTH, Direction.NORTH),
+            new Pair<>(SHAPE_EXTRACT_SOUTH, Direction.SOUTH),
+            new Pair<>(SHAPE_EXTRACT_WEST, Direction.WEST),
+            new Pair<>(SHAPE_EXTRACT_EAST, Direction.EAST),
+            new Pair<>(SHAPE_EXTRACT_UP, Direction.UP),
+            new Pair<>(SHAPE_EXTRACT_DOWN, Direction.DOWN)
+    );
+
+    public Pair<Direction, VoxelShape> getSelection(BlockState state, IBlockReader blockReader, BlockPos pos, PlayerEntity player) {
+        Vector3d start = player.getEyePosition(1F);
+        Vector3d end = start.add(player.getLookAngle().normalize().scale(getBlockReachDistance(player)));
+
+        Direction direction = null;
+        VoxelShape selection = null;
+        double shortest = Double.MAX_VALUE;
+
+        double d = checkShape(state, blockReader, pos, start, end, SHAPE_CORE, null);
+        if (d < shortest) {
+            shortest = d;
+        }
+
+        if (!(blockReader instanceof IWorldReader)) {
+            return new Pair<>(direction, selection);
+        }
+
+        TileEntityEnergyCable pipe = getTileEntity((IWorldReader) blockReader, pos);
+
+        for (int i = 0; i < Direction.values().length; i++) {
+            Pair<VoxelShape, Direction> extract = EXTRACT_SHAPES.get(i);
+            Triple<VoxelShape, BooleanProperty, Direction> shape = SHAPES.get(i);
+            if (pipe != null && pipe.isExtracting(extract.getValue())) {
+                d = checkShape(state, blockReader, pos, start, end, extract.getKey(), pipe, extract.getValue());
+                if (d < shortest) {
+                    shortest = d;
+                    direction = extract.getValue();
+                    selection = extract.getKey();
+                }
+            } else {
+                d = checkShape(state, blockReader, pos, start, end, shape.getValue1(), shape.getValue2());
+                if (d < shortest) {
+                    shortest = d;
+                    direction = shape.getValue3();
+                    selection = shape.getValue1();
+                }
+            }
+        }
+        return new Pair<>(direction, selection);
+    }
+
+    public float getBlockReachDistance(PlayerEntity player) {
+        float distance = (float) player.getAttribute(net.minecraftforge.common.ForgeMod.REACH_DISTANCE.get()).getValue();
+        return player.isCreative() ? distance : distance - 0.5F;
+    }
+
+    private double checkShape(BlockState state, IBlockReader world, BlockPos pos, Vector3d start, Vector3d end, VoxelShape shape, BooleanProperty direction) {
+        if (direction != null && !state.getValue(direction)) {
+            return Double.MAX_VALUE;
+        }
+        BlockRayTraceResult blockRayTraceResult = world.clipWithInteractionOverride(start, end, pos, shape, state);
+        if (blockRayTraceResult == null) {
+            return Double.MAX_VALUE;
+        }
+        return blockRayTraceResult.getLocation().distanceTo(start);
+    }
+
+    private double checkShape(BlockState state, IBlockReader world, BlockPos pos, Vector3d start, Vector3d end, VoxelShape shape, @Nullable TileEntityEnergyCable cable, Direction side) {
+        if (cable != null && !cable.isExtracting(side)) {
+            return Double.MAX_VALUE;
+        }
+        BlockRayTraceResult blockRayTraceResult = world.clipWithInteractionOverride(start, end, pos, shape, state);
+        if (blockRayTraceResult == null) {
+            return Double.MAX_VALUE;
+        }
+        return blockRayTraceResult.getLocation().distanceTo(start);
+    }
+
+
+    public ActionResultType onCableSideActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit, Direction direction) {
+        return super.use(state, worldIn, pos, player, handIn, hit);
     }
     public BooleanProperty getProperty(Direction side) {
         switch (side) {
@@ -59,18 +203,21 @@ public abstract class BlockBaseEnergyCable extends Block {
         builder.add(up, down, north, south, west, east, has_data);
     }
 
-    //Voxels
-    static final VoxelShape SHAPE_CORE = VoxelShapes.or(Block.box(5, 5, 5, 11, 11, 11));
-    static final VoxelShape SHAPE_UP = VoxelShapes.or(Block.box(6, 11, 6, 10, 16, 10), Block.box(5, 15, 5, 11, 16, 11));
-    static final VoxelShape SHAPE_DOWN = VoxelShapes.or(Block.box(6, 0, 6, 10, 5, 10), Block.box(5, 0, 5, 11, 1, 11));
-    static final VoxelShape SHAPE_NORTH = VoxelShapes.or(Block.box(6, 6, 1, 10, 10, 5), Block.box(5, 5, 0, 11, 11, 1));
-    static final VoxelShape SHAPE_SOUTH = VoxelShapes.or(Block.box(6, 6, 11, 10, 10, 15), Block.box(5, 5, 15, 11, 11, 16));
-    static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(1, 6, 6, 5, 10, 10), Block.box(0, 5, 5, 1, 11, 11));
-    static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(11, 6, 6, 15, 10, 10), Block.box(15, 5, 5, 16, 11, 11));
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return getState(context.getLevel(), context.getClickedPos(), null);
+    }
+    @Override
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.is(newState.getBlock())) {
+            if (!newState.getValue(has_data)) {
+                worldIn.removeBlockEntity(pos);
+            }
+        } else {
+            super.onRemove(state, worldIn, pos, newState, isMoving);
+        }
     }
 
     @Override
@@ -83,7 +230,11 @@ public abstract class BlockBaseEnergyCable extends Block {
     }
 
     private BlockState getState(World world, BlockPos pos, @Nullable BlockState oldState) {
-        boolean hasdata = false;
+
+        boolean hasData = false;
+        if (oldState != null && oldState.getBlock() == this) {
+            hasData = oldState.getValue(has_data);
+        }
         return defaultBlockState()
                 .setValue(up, isConnected(world,pos,Direction.UP))
                 .setValue(down, isConnected(world,pos,Direction.DOWN))
@@ -91,7 +242,7 @@ public abstract class BlockBaseEnergyCable extends Block {
                 .setValue(south, isConnected(world,pos,Direction.SOUTH))
                 .setValue(east, isConnected(world,pos,Direction.EAST))
                 .setValue(west, isConnected(world,pos,Direction.WEST))
-                .setValue(has_data, hasdata);
+                .setValue(has_data, hasData);
     }
 
     public boolean isExtracting(IWorldReader world, BlockPos pos, Direction side) {
@@ -188,14 +339,17 @@ public abstract class BlockBaseEnergyCable extends Block {
         return null;
     }
 
-
+    @Nullable
+    public TileEntity newBlockEntity(IBlockReader worldIn) {
+        return null;
+    }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if (state.getValue(has_data)) {
             return createTileEntity();
-        }else{
+        } else {
             return null;
         }
     }

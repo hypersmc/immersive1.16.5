@@ -1,15 +1,13 @@
 package com.jumpwatch.tit.Registry;
 
-import com.jumpwatch.tit.Blocks.BlockBaseEnergyCable;
-import com.jumpwatch.tit.Blocks.BlockElectronic_Crusher;
-import com.jumpwatch.tit.Blocks.BlockSolar_Panel_T1;
-import com.jumpwatch.tit.Blocks.BlockSolar_Panel_T1_SubPanels;
+import com.jumpwatch.tit.Blocks.*;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.function.Supplier;
@@ -38,5 +36,17 @@ public class BlockRegistry {
     public static final RegistryObject<Block> Electronic_crusher = register("electronic_crusher", () -> new BlockElectronic_Crusher(AbstractBlock.Properties.of(Material.METAL)));
     public static final RegistryObject<Block> Solar_Panel_T1 = register("solar_panel_t1", () -> new BlockSolar_Panel_T1(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion()));
     public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion()));
-    public static final RegistryObject<Block> Energy_Cable_Base_T1 = register("energy_cable_b_t1", () -> new BlockBaseEnergyCable(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion()));
+
+    public static final BlockEnergyCable ENERGY_CABLE = new BlockEnergyCable();
+    public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(
+                ENERGY_CABLE
+        );
+    }
+    public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().registerAll(
+                ENERGY_CABLE.toItem()
+        );
+    }
+
 }

@@ -1,11 +1,15 @@
 package com.jumpwatch.tit.Registry;
 
+import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergycable;
 import com.jumpwatch.tit.Tileentity.TileEntityElectronic_Crusher;
 import com.jumpwatch.tit.Tileentity.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.TileEntitySolar_Panel_T1;
+import com.jumpwatch.tit.theimmersivetech;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.function.Supplier;
@@ -24,5 +28,15 @@ public class TileentityRegistry {
 
     public static final RegistryObject<TileEntityType<TileEntityElectronic_Crusher>> Electronic_crusher = register("electronic_crusher", TileEntityElectronic_Crusher::new, BlockRegistry.Electronic_crusher);
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
-    public static final RegistryObject<TileEntityType<TileEntityEnergyCable>> Energy_Cable_Base = register("energy_cable_b_t1", TileEntityEnergyCable::new, BlockRegistry.Energy_Cable_Base_T1);
+
+    public static TileEntityType<TileEntityEnergycable> ENERGY_CABLE;
+
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
+        ENERGY_CABLE = TileEntityType.Builder.of(TileEntityEnergycable::new, BlockRegistry.ENERGY_CABLE).build(null);
+        ENERGY_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "energy_cable"));
+        event.getRegistry().register(ENERGY_CABLE);
+    }
+
+
+
 }
