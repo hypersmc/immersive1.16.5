@@ -2,7 +2,7 @@ package com.jumpwatch.tit.Tileentity.Types;
 
 
 import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
-import com.jumpwatch.tit.Tileentity.TileEntityEnergyCable;
+import com.jumpwatch.tit.Tileentity.TileEntityBaseCable;
 import com.jumpwatch.tit.Utils.EnergyUtils;
 import com.jumpwatch.tit.Utils.Pair;
 import net.minecraft.item.ItemStack;
@@ -11,12 +11,15 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EnergyCableType extends CableTypes<Void>{
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static final EnergyCableType INSTANCE = new EnergyCableType();
 
@@ -45,6 +48,7 @@ public class EnergyCableType extends CableTypes<Void>{
         return null;
     }
     public void pullEnergy(TileEntityCableLogic tileEntity, Direction side) {
+        LOGGER.info("trying to pull power!");
         if (!tileEntity.isExtracting(side)) {
             return;
         }
@@ -56,10 +60,14 @@ public class EnergyCableType extends CableTypes<Void>{
             return;
         }
 
-        List<TileEntityEnergyCable.Connection> connections = tileEntity.getSortedConnections(side, this);
+        List<TileEntityBaseCable.Connection> connections = tileEntity.getSortedConnections(side, this);
 
         insertOrdered(tileEntity, side, connections, energyStorage);
     }
+
+
+
+
     public int receive(TileEntityCableLogic tileEntity, Direction side, int amount, boolean simulate) {
         if (!tileEntity.isExtracting(side)) {
             return 0;
@@ -68,13 +76,13 @@ public class EnergyCableType extends CableTypes<Void>{
             return 0;
         }
 
-        List<TileEntityEnergyCable.Connection> connections = tileEntity.getSortedConnections(side, this);
+        List<TileEntityBaseCable.Connection> connections = tileEntity.getSortedConnections(side, this);
 
         int maxTransfer = Math.min(getRate(), amount);
 
         return receiveOrdered(tileEntity, side, connections, maxTransfer, simulate);
     }
-    protected void insertEqually(TileEntityCableLogic tileEntity, Direction side, List<TileEntityEnergyCable.Connection> connections, IEnergyStorage energyStorage) {
+    protected void insertEqually(TileEntityCableLogic tileEntity, Direction side, List<TileEntityBaseCable.Connection> connections, IEnergyStorage energyStorage) {
         if (connections.isEmpty()) {
             return;
         }
@@ -87,7 +95,7 @@ public class EnergyCableType extends CableTypes<Void>{
         for (int i = 0; i < connections.size(); i++) {
             int index = (i + p) % connections.size();
 
-            TileEntityEnergyCable.Connection connection = connections.get(index);
+            TileEntityBaseCable.Connection connection = connections.get(index);
             IEnergyStorage destination = getEnergyStorage(tileEntity, connection.getPos(), connection.getDirection());
             if (destination != null && destination.canReceive() && destination.receiveEnergy(1, true) >= 1) {
                 destinations.add(destination);
@@ -112,7 +120,7 @@ public class EnergyCableType extends CableTypes<Void>{
 
         tileEntity.setRoundRobinIndex(side, this, p);
     }
-    protected int receiveEqually(TileEntityCableLogic tileEntity, Direction side, List<TileEntityEnergyCable.Connection> connections, int maxReceive, boolean simulate) {
+    protected int receiveEqually(TileEntityCableLogic tileEntity, Direction side, List<TileEntityBaseCable.Connection> connections, int maxReceive, boolean simulate) {
         if (connections.isEmpty() || maxReceive <= 0) {
             return 0;
         }
@@ -124,7 +132,7 @@ public class EnergyCableType extends CableTypes<Void>{
         for (int i = 0; i < connections.size(); i++) {
             int index = (i + p) % connections.size();
 
-            TileEntityEnergyCable.Connection connection = connections.get(index);
+            TileEntityBaseCable.Connection connection = connections.get(index);
             IEnergyStorage destination = getEnergyStorage(tileEntity, connection.getPos(), connection.getDirection());
             if (destination != null && destination.canReceive() && destination.receiveEnergy(1, true) >= 1) {
                 destinations.add(new Pair<>(destination, index));
@@ -152,10 +160,10 @@ public class EnergyCableType extends CableTypes<Void>{
 
         return actuallyTransferred;
     }
-    protected void insertOrdered(TileEntityCableLogic tileEntity, Direction side, List<TileEntityEnergyCable.Connection> connections, IEnergyStorage energyStorage) {
+    protected void insertOrdered(TileEntityCableLogic tileEntity, Direction side, List<TileEntityBaseCable.Connection> connections, IEnergyStorage energyStorage) {
         int energyToTransfer = getRate();
 
-        for (TileEntityEnergyCable.Connection connection : connections) {
+        for (TileEntityBaseCable.Connection connection : connections) {
             if (energyToTransfer <= 0) {
                 break;
             }
@@ -171,11 +179,11 @@ public class EnergyCableType extends CableTypes<Void>{
             }
         }
     }
-    protected int receiveOrdered(TileEntityCableLogic tileEntity, Direction side, List<TileEntityEnergyCable.Connection> connections, int maxReceive, boolean simulate) {
+    protected int receiveOrdered(TileEntityCableLogic tileEntity, Direction side, List<TileEntityBaseCable.Connection> connections, int maxReceive, boolean simulate) {
         int actuallyTransferred = 0;
         int energyToTransfer = maxReceive;
 
-        for (TileEntityEnergyCable.Connection connection : connections) {
+        for (TileEntityBaseCable.Connection connection : connections) {
             if (energyToTransfer <= 0) {
                 break;
             }

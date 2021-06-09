@@ -45,7 +45,7 @@ public class CableEnergyStorage implements IEnergyStorage {
 
     @Override
     public boolean canExtract() {
-        return false;
+        return true;
     }
 
     @Override

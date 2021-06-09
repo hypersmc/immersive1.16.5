@@ -10,15 +10,14 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class TileEntityCableLogic extends TileEntityEnergyCable{
+public abstract class TileEntityCableLogic extends TileEntityBaseCable {
     protected CableTypes<?>[] types;
     protected final int[][] rrIndex;
     protected CachedMap<Direction, CableEnergyStorage> energyCache;
@@ -84,10 +83,6 @@ public abstract class TileEntityCableLogic extends TileEntityEnergyCable{
         return true;
     }
 
-    public boolean isRedstonePowered() {
-        return level.hasNeighborSignal(worldPosition);
-    }
-
     public CableTypes<?>[] getCableTypes() {
         return types;
     }
@@ -135,7 +130,7 @@ public abstract class TileEntityCableLogic extends TileEntityEnergyCable{
         return false;
     }
     public List<Connection> getSortedConnections(Direction side, CableTypes pipeType) {
-        return getConnections().stream().sorted(Comparator.comparingInt(TileEntityEnergyCable.Connection::getDistance)).collect(Collectors.toList());
+        return getConnections().stream().sorted(Comparator.comparingInt(TileEntityBaseCable.Connection::getDistance)).collect(Collectors.toList());
     }
 
 }

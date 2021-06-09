@@ -1,40 +1,34 @@
 package com.jumpwatch.tit.Tileentity;
 
-import com.jumpwatch.tit.Blocks.BlockBaseEnergyCable;
-import com.jumpwatch.tit.Registry.TileentityRegistry;
+import com.jumpwatch.tit.Blocks.BlockBaseCable;
 import com.jumpwatch.tit.Utils.DirectionalPosition;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.texture.ITickable;
+import net.minecraft.nbt.ByteNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class TileEntityEnergyCable extends TileEntity implements ITickable, IEnergyStorage {
-    public List rendersides = new IntArrayList();
-
-    Connection connection2;
-    getab getab;
+public abstract class TileEntityBaseCable extends TileEntity implements ITickableTileEntity {
     @Nullable
     protected List<Connection> connectionCache;
     protected boolean[] extractingSides;
     protected boolean[] disconnectedSides;
     private int invalidateCountdown;
 
-    public TileEntityEnergyCable(TileEntityType<?> tileEntityTypeIn) {
+    public TileEntityBaseCable(TileEntityType<?> tileEntityTypeIn) {
         super (tileEntityTypeIn);
         extractingSides = new boolean[Direction.values().length];
         disconnectedSides = new boolean[Direction.values().length];
@@ -53,7 +47,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
 
     private void updateCache(){
         BlockState blockState = getBlockState();
-        if (!(blockState.getBlock() instanceof BlockBaseEnergyCable)) {
+        if (!(blockState.getBlock() instanceof BlockBaseCable)) {
             connectionCache = null;
             return;
         }
@@ -79,12 +73,60 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
         connectionCache = connections.entrySet().stream().map(entry -> new Connection(entry.getKey().getPos(), entry.getKey().getDirection(), entry.getValue())).collect(Collectors.toList());
     }
 
-    public void addToQueue(World world, BlockPos position, Map<BlockPos, Integer> queue, List<BlockPos> travelPositions, Map<DirectionalPosition, Integer> insertPositions, int distance) {
-        Block block = world.getBlockState(position).getBlock();
-        if (!(block instanceof BlockBaseEnergyCable)) {
+    public boolean hasReasonToStay() {
+        if (isExtracting()) {
+            return true;
+        }
+        for (boolean disconnected : disconnectedSides) {
+            if (disconnected) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void markPipesDirty(World world, BlockPos pos) {
+        List<BlockPos> travelPositions = new ArrayList<>();
+        LinkedList<BlockPos> queue = new LinkedList<>();
+        Block block = world.getBlockState(pos).getBlock();
+        if (!(block instanceof BlockBaseCable)) {
             return;
         }
-        BlockBaseEnergyCable cable = (BlockBaseEnergyCable) block;
+        BlockBaseCable baseCable = (BlockBaseCable) block;
+        TileEntityBaseCable cableTe = baseCable.getTileEntity(world, pos);
+        if (cableTe != null) {
+            for (Direction side : Direction.values()) {
+                if (cableTe.isExtracting(side)) {
+                    if (baseCable.canConnectTo(world,pos,side)) {
+                        cableTe.setExtracting(side, false);
+                        if (!cableTe.hasReasonToStay()) {
+                            baseCable.setHasData(world, pos, false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void addToDirtyList(World world, BlockPos pos, BlockBaseCable pipeBlock, List<BlockPos> travelPositions, LinkedList<BlockPos> queue) {
+        for (Direction direction : Direction.values()) {
+            if (pipeBlock.isConnected(world, pos, direction)) {
+                BlockPos p = pos.relative(direction);
+                if (!travelPositions.contains(p) && !queue.contains(p)) {
+                    travelPositions.add(p);
+                    queue.add(p);
+                }
+            }
+        }
+
+    }
+
+    public void addToQueue(World world, BlockPos position, Map<BlockPos, Integer> queue, List<BlockPos> travelPositions, Map<DirectionalPosition, Integer> insertPositions, int distance) {
+        Block block = world.getBlockState(position).getBlock();
+        if (!(block instanceof BlockBaseCable)) {
+            return;
+        }
+        BlockBaseCable cable = (BlockBaseCable) block;
         for (Direction direction : Direction.values()) {
             if (cable.isConnected(world, position, direction)) {
                 BlockPos p = position.relative(direction);
@@ -108,8 +150,8 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
 
     public boolean canInsert(BlockPos pos, Direction direction) {
         TileEntity te = level.getBlockEntity(pos);
-        if (te instanceof TileEntityEnergyCable) {
-            TileEntityEnergyCable cable = (TileEntityEnergyCable) te;
+        if (te instanceof TileEntityBaseCable) {
+            TileEntityBaseCable cable = (TileEntityBaseCable) te;
             if (cable.isExtracting(direction)) {
                 return false;
             }
@@ -117,8 +159,8 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
 
         TileEntity tileEntity = level.getBlockEntity(pos.relative(direction));
         if (tileEntity == null) return false;
-        if (tileEntity instanceof TileEntityEnergyCable) return false;
-        return getab.getcanInsert(tileEntity, direction.getOpposite());
+        if (tileEntity instanceof TileEntityBaseCable) return false;
+        return canInsert(tileEntity, direction.getOpposite());
     }
 
 
@@ -172,13 +214,8 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
 
     }
 
-    public abstract static class getab {
-        public boolean getcanInsert(TileEntity tileEntity, Direction direction) {
-            return canInsert(tileEntity, direction);
-        }
-        public abstract boolean canInsert(TileEntity tileEntity, Direction direction);
 
-    }
+    public abstract boolean canInsert(TileEntity tileEntity, Direction direction);
     @Override
     public SUpdateTileEntityPacket getUpdatePacket(){
         return new SUpdateTileEntityPacket(worldPosition, 1, getUpdateTag());
@@ -187,6 +224,10 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         handleUpdateTag(getBlockState(), pkt.getTag());
+    }
+    @Override
+    public CompoundNBT getUpdateTag() {
+        return save(new CompoundNBT());
     }
 
     @Override
@@ -200,32 +241,43 @@ public class TileEntityEnergyCable extends TileEntity implements ITickable, IEne
     }
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return 0;
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
+        extractingSides = new boolean[Direction.values().length];
+        ListNBT extractingList = compound.getList("ExtractingSides", Constants.NBT.TAG_BYTE);
+        if (extractingList.size() >= extractingSides.length) {
+            for (int i = 0; i < extractingSides.length; i++) {
+                ByteNBT b = (ByteNBT) extractingList.get(i);
+                extractingSides[i] = b.getAsByte() != 0;
+            }
+        }
+
+        disconnectedSides = new boolean[Direction.values().length];
+        ListNBT disconnectedList = compound.getList("DisconnectedSides", Constants.NBT.TAG_BYTE);
+        if (disconnectedList.size() >= disconnectedSides.length) {
+            for (int i = 0; i < disconnectedSides.length; i++) {
+                ByteNBT b = (ByteNBT) disconnectedList.get(i);
+                disconnectedSides[i] = b.getAsByte() != 0;
+            }
+        }
+        invalidateCountdown = 5;
     }
 
     @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        return 0;
+    public CompoundNBT save(CompoundNBT compound) {
+        ListNBT extractingList = new ListNBT();
+        for (boolean extractingSide : extractingSides) {
+            extractingList.add(ByteNBT.valueOf(extractingSide));
+        }
+        compound.put("ExtractingSides", extractingList);
+
+        ListNBT disconnectedList = new ListNBT();
+        for (boolean disconnected : disconnectedSides) {
+            disconnectedList.add(ByteNBT.valueOf(disconnected));
+        }
+        compound.put("DisconnectedSides", disconnectedList);
+        return super.save(compound);
     }
 
-    @Override
-    public int getEnergyStored() {
-        return 0;
-    }
 
-    @Override
-    public int getMaxEnergyStored() {
-        return 0;
-    }
-
-    @Override
-    public boolean canExtract() {
-        return false;
-    }
-
-    @Override
-    public boolean canReceive() {
-        return false;
-    }
 }

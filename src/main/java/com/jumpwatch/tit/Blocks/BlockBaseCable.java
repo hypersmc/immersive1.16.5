@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Blocks;
 
-import com.jumpwatch.tit.Tileentity.TileEntityEnergyCable;
+import com.jumpwatch.tit.Items.ItemWrench;
+import com.jumpwatch.tit.Tileentity.TileEntityBaseCable;
 import com.jumpwatch.tit.Utils.IItemBlock;
 import com.jumpwatch.tit.Utils.Pair;
 import com.jumpwatch.tit.Utils.Triple;
@@ -8,11 +9,11 @@ import com.jumpwatch.tit.Utils.VoxelUtils;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +22,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.EntitySelectionContext;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -28,13 +30,16 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
 
-public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
+public abstract class BlockBaseCable extends Block implements IItemBlock {
+    private static final Logger LOGGER = LogManager.getLogger();
     static final BooleanProperty has_data = BooleanProperty.create("has_data");
     public static final BooleanProperty down = BooleanProperty.create("down");
     public static final BooleanProperty up = BooleanProperty.create("up");
@@ -48,24 +53,28 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
     public static final VoxelShape SHAPE_DOWN = VoxelShapes.or(Block.box(6, 0, 6, 10, 5, 10));
     public static final VoxelShape SHAPE_NORTH = VoxelShapes.or(Block.box(6, 6, 1, 10, 10, 5));
     public static final VoxelShape SHAPE_SOUTH = VoxelShapes.or(Block.box(6, 6, 11, 10, 10, 15));
-    public static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(1, 6, 6, 5, 10, 10));
-    public static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(11, 6, 6, 15, 10, 10));
+    public static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(1, 6, 6, 5, 10, 10));
+    public static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(11, 6, 6, 15, 10, 10));
 
     public static final VoxelShape SHAPE_EXTRACT_UP = VoxelUtils.combine(SHAPE_UP, Block.box(5, 15, 5, 11, 16, 11));
     public static final VoxelShape SHAPE_EXTRACT_DOWN = VoxelUtils.combine(SHAPE_DOWN, Block.box(5, 0, 5, 11, 1, 11));
     public static final VoxelShape SHAPE_EXTRACT_NORTH = VoxelUtils.combine(SHAPE_NORTH, Block.box(5, 5, 0, 11, 11, 1));
     public static final VoxelShape SHAPE_EXTRACT_SOUTH = VoxelUtils.combine(SHAPE_SOUTH, Block.box(5, 5, 15, 11, 11, 16));
-    public static final VoxelShape SHAPE_EXTRACT_EAST = VoxelUtils.combine(SHAPE_EAST, Block.box(0, 5, 5, 1, 11, 11));
-    public static final VoxelShape SHAPE_EXTRACT_WEST = VoxelUtils.combine(SHAPE_WEST, Block.box(15, 5, 5, 16, 11, 11));
+    public static final VoxelShape SHAPE_EXTRACT_EAST = VoxelUtils.combine(SHAPE_EAST, Block.box(15, 5, 5, 16, 11, 11));
+    public static final VoxelShape SHAPE_EXTRACT_WEST = VoxelUtils.combine(SHAPE_WEST,  Block.box(0, 5, 5, 1, 11, 11));
 
-    // .setValue(HAS_DATA, false)
-    protected BlockBaseEnergyCable() {
-        super(AbstractBlock.Properties.of(Material.METAL));
+    protected BlockBaseCable() {
+        super(AbstractBlock.Properties.of(Material.METAL).strength(0.5F).harvestLevel(3));
         registerDefaultState(stateDefinition.any().setValue(has_data, false).setValue(up, false).setValue(down, false).setValue(north, false).setValue(south, false).setValue(west, false).setValue(east, false));
     }
     @Override
     public Item toItem() {
         return new BlockItem(this, new Item.Properties()).setRegistryName(getRegistryName());
+    }
+
+    @Override
+    public PushReaction getPistonPushReaction(BlockState p_149656_1_) {
+        return PushReaction.BLOCK;
     }
 
     @Override
@@ -76,6 +85,40 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
         } else {
             return super.use(state, worldIn, pos, player, handIn, hit);
         }
+    }
+
+    public ActionResultType onWrenchClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit, Direction side) {
+        if (side != null) {
+            if (worldIn.getBlockState(pos.relative(side)).getBlock() != this) {
+                boolean extracting = isExtracting(worldIn, pos, side);
+                if (extracting) {
+                    LOGGER.info("Setting to be disconnected");
+                    setExtracting(worldIn, pos, side, false);
+                    setDisconnected(worldIn, pos, side, true);
+                } else {
+                    LOGGER.info("Setting to be connected and extracting");
+                    setExtracting(worldIn, pos, side, true);
+                    setDisconnected(worldIn, pos, side, false);
+                }
+            } else {
+                LOGGER.info("Setting to be disconnected");
+                setDisconnected(worldIn, pos, side, true);
+            }
+        } else {
+            // Core
+            side = hit.getDirection();
+            if (worldIn.getBlockState(pos.relative(side)).getBlock() != this) {
+                setExtracting(worldIn, pos, side, false);
+                if (isAbleToConnect(worldIn, pos, side)) {
+                    setDisconnected(worldIn, pos, side, false);
+                }
+            } else {
+                setDisconnected(worldIn, pos, side, false);
+                setDisconnected(worldIn, pos.relative(side), side.getOpposite(), false);
+            }
+        }
+        TileEntityBaseCable.markPipesDirty(worldIn, pos);
+        return ActionResultType.SUCCESS;
     }
 
     public VoxelShape getSelectionShape(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
@@ -123,7 +166,7 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
             return new Pair<>(direction, selection);
         }
 
-        TileEntityEnergyCable pipe = getTileEntity((IWorldReader) blockReader, pos);
+        TileEntityBaseCable pipe = getTileEntity((IWorldReader) blockReader, pos);
 
         for (int i = 0; i < Direction.values().length; i++) {
             Pair<VoxelShape, Direction> extract = EXTRACT_SHAPES.get(i);
@@ -163,7 +206,7 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
         return blockRayTraceResult.getLocation().distanceTo(start);
     }
 
-    private double checkShape(BlockState state, IBlockReader world, BlockPos pos, Vector3d start, Vector3d end, VoxelShape shape, @Nullable TileEntityEnergyCable cable, Direction side) {
+    private double checkShape(BlockState state, IBlockReader world, BlockPos pos, Vector3d start, Vector3d end, VoxelShape shape, @Nullable TileEntityBaseCable cable, Direction side) {
         if (cable != null && !cable.isExtracting(side)) {
             return Double.MAX_VALUE;
         }
@@ -209,6 +252,10 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return getState(context.getLevel(), context.getClickedPos(), null);
     }
+
+    public ActionResultType onCableSideForceActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit, @Nullable Direction side){
+        return onWrenchClicked(state,world,pos,player,hand,hit,side);
+    }
     @Override
     public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.is(newState.getBlock())) {
@@ -226,6 +273,7 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
         BlockState newState = getState(world, pos, state);
         if (!state.getProperties().stream().allMatch(property -> state.getValue(property).equals(newState.getValue(property)))){
             world.setBlockAndUpdate(pos, newState);
+            TileEntityBaseCable.markPipesDirty(world, pos);
         }
     }
 
@@ -246,12 +294,12 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
     }
 
     public boolean isExtracting(IWorldReader world, BlockPos pos, Direction side) {
-        TileEntityEnergyCable cable = getTileEntity(world, pos);
+        TileEntityBaseCable cable = getTileEntity(world, pos);
         if (cable == null) return false;
         return cable.isExtracting(side);
     }
     public boolean isDisconnected(IWorldReader world, BlockPos pos, Direction side) {
-        TileEntityEnergyCable cable = getTileEntity(world, pos);
+        TileEntityBaseCable cable = getTileEntity(world, pos);
         if (cable == null) return false;
         return cable.isDisconnected(side);
     }
@@ -262,7 +310,7 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
     }
 
     public void setExtracting(World world, BlockPos pos, Direction side, boolean extracting) {
-        TileEntityEnergyCable cable = getTileEntity(world, pos);
+        TileEntityBaseCable cable = getTileEntity(world, pos);
         if (cable == null) {
             if (extracting) {
                 setHasData(world, pos, true);
@@ -273,15 +321,18 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
             }
         } else {
             cable.setExtracting(side, extracting);
-            BlockState blockState = world.getBlockState(pos);
-            BooleanProperty sideProperty = getProperty(side);
-            boolean connected = blockState.getValue(sideProperty);
-            world.setBlockAndUpdate(pos, blockState.setValue(sideProperty, !connected));
-            world.setBlockAndUpdate(pos, blockState.setValue(sideProperty, connected));
+            if (!cable.hasReasonToStay()){
+                setHasData(world, pos, false);
+            }
         }
+        BlockState blockState = world.getBlockState(pos);
+        BooleanProperty sideProperty = getProperty(side);
+        boolean connected = blockState.getValue(sideProperty);
+        world.setBlockAndUpdate(pos, blockState.setValue(sideProperty, !connected));
+        world.setBlockAndUpdate(pos, blockState.setValue(sideProperty, connected));
     }
     public void setDisconnected(World world, BlockPos pos, Direction side, boolean disconnected) {
-        TileEntityEnergyCable cable = getTileEntity(world, pos);
+        TileEntityBaseCable cable = getTileEntity(world, pos);
         if (cable == null) {
             if (disconnected) {
                 setHasData(world, pos, true);
@@ -293,6 +344,9 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
             }
         } else {
             cable.setDisconnected(side, disconnected);
+            if (!cable.hasReasonToStay()) {
+                setHasData(world,pos,false);
+            }
             world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(getProperty(side), !disconnected));
         }
     }
@@ -301,62 +355,92 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
 
 
     public VoxelShape getShape(IBlockReader blockReader, BlockPos pos, BlockState state, boolean advanced) {
-        TileEntityEnergyCable cable = null;
+        TileEntityBaseCable cable = null;
         if (advanced && blockReader instanceof IWorldReader) {
             cable = getTileEntity((IWorldReader) blockReader, pos);
         }
         VoxelShape shape = SHAPE_CORE;
         if (state.getValue(up)) {
-            shape = VoxelShapes.or(shape, SHAPE_UP);
+            if (cable != null && cable.isExtracting(Direction.UP)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_UP);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_UP);
+            }
         }
         if (state.getValue(down)) {
-            shape = VoxelShapes.or(shape, SHAPE_DOWN);
+            if (cable != null && cable.isExtracting(Direction.DOWN)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_DOWN);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_DOWN);
+            }
         }
         if (state.getValue(north)) {
-            shape = VoxelShapes.or(shape, SHAPE_NORTH);
+            if (cable != null && cable.isExtracting(Direction.NORTH)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_NORTH);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_NORTH);
+            }
         }
         if (state.getValue(south)) {
-            shape = VoxelShapes.or(shape, SHAPE_SOUTH);
+            if (cable != null && cable.isExtracting(Direction.SOUTH)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_SOUTH);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_SOUTH);
+            }
         }
         if (state.getValue(west)) {
-            shape = VoxelShapes.or(shape, SHAPE_WEST);
+            if (cable != null && cable.isExtracting(Direction.WEST)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_WEST);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_WEST);
+            }
         }
         if (state.getValue(east)) {
-            shape = VoxelShapes.or(shape, SHAPE_EAST);
+            if (cable != null && cable.isExtracting(Direction.EAST)){
+                shape = VoxelUtils.combine(shape, SHAPE_EXTRACT_EAST);
+            }else {
+                shape = VoxelShapes.or(shape, SHAPE_EAST);
+            }
         }
         return shape;
     }
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (context instanceof EntitySelectionContext) {
+            EntitySelectionContext ctx = (EntitySelectionContext) context;
+            if (ctx.getEntity() instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) ctx.getEntity();
+                if (player.level.isClientSide) {
+                    return getSelectionShape(state, worldIn, pos, player);
+                }
+            }
+        }
         return getShape(worldIn, pos, state, true);
     }
 
-    public TileEntityEnergyCable getTileEntity(IWorldReader world, BlockPos pos) {
+    public TileEntityBaseCable getTileEntity(IWorldReader world, BlockPos pos) {
         TileEntity te = world.getBlockEntity(pos);
-        if (te instanceof TileEntityEnergyCable) {
-            return (TileEntityEnergyCable) te;
+        if (te instanceof TileEntityBaseCable) {
+            return (TileEntityBaseCable) te;
         }
         return null;
     }
 
-    @Nullable
-    public TileEntity newBlockEntity(IBlockReader worldIn) {
-        return null;
-    }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if (state.getValue(has_data)) {
+        if (!state.getValue(has_data)) {
             return createTileEntity();
         } else {
             return null;
         }
     }
 
+
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return state.getValue(has_data);
+        return !state.getValue(has_data);
     }
 
     @Override
@@ -386,8 +470,8 @@ public abstract class BlockBaseEnergyCable extends Block implements IItemBlock {
 
 
     public boolean isConnected(IWorldReader world, BlockPos pos, Direction facing) {
-        TileEntityEnergyCable pipe = getTileEntity(world, pos);
-        TileEntityEnergyCable other = getTileEntity(world, pos.relative(facing));
+        TileEntityBaseCable pipe = getTileEntity(world, pos);
+        TileEntityBaseCable other = getTileEntity(world, pos.relative(facing));
 
         if (!isAbleToConnect(world, pos, facing)) {
             return false;
