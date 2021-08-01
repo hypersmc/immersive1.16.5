@@ -2,14 +2,22 @@ package com.jumpwatch.tit.Tileentity;
 
 import com.jumpwatch.tit.Tileentity.Types.CableTypes;
 import com.jumpwatch.tit.Tileentity.Types.EnergyCableType;
+import com.jumpwatch.tit.Tileentity.Types.FluidCableType;
+import com.jumpwatch.tit.Tileentity.Types.ItemCableType;
 import com.jumpwatch.tit.Utils.CableEnergyStorage;
+import com.jumpwatch.tit.Utils.CableItemHandler;
 import com.jumpwatch.tit.Utils.CachedMap;
+import com.jumpwatch.tit.Utils.FluidHandler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,11 +26,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityCableLogic extends TileEntityBaseCable {
+    private static final Logger LOGGER = LogManager.getLogger();
     protected CableTypes<?>[] types;
     protected final int[][] rrIndex;
     protected CachedMap<Direction, CableEnergyStorage> energyCache;
-    public TileEntityCableLogic (TileEntityType<?> tileEntityType, CableTypes<?>[] types) {
-        super(tileEntityType);
+    public TileEntityCableLogic (TileEntityType<?> tileEntityType, CableTypes<?>[] types, boolean isFluid, boolean isItem, boolean isEnergy) {
+        super(tileEntityType, isItem, isFluid, isEnergy);
         this.types = types;
         rrIndex = new int[Direction.values().length][types.length];
         energyCache = new CachedMap<>();
@@ -36,18 +45,21 @@ public abstract class TileEntityCableLogic extends TileEntityBaseCable {
         }
 
         if (cap == CapabilityEnergy.ENERGY && hasType(EnergyCableType.INSTANCE)) {
-            if (side != null && isExtracting(side)) {
+            if (side != null && !isExtracting(side)) {
+                setExtracting(side, true);
                 return LazyOptional.of(() -> energyCache.get(side, () -> new CableEnergyStorage(this, side))).cast();
             }
-        } /*else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && hasType(FluidPipeType.INSTANCE)) {
-            if (side == null || isExtracting(side)) {
-                return LazyOptional.of(() -> DummyFluidHandler.INSTANCE).cast();
+        } else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && hasType(FluidCableType.INSTANCE)) {
+            if (side == null || !isExtracting(side)) {
+                setExtracting(side, true);
+                return LazyOptional.of(() -> FluidHandler.INSTANCE).cast();
             }
-        } else if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && hasType(ItemPipeType.INSTANCE)) {
-            if (side == null || isExtracting(side)) {
-                return LazyOptional.of(() -> DummyItemHandler.INSTANCE).cast();
+        } else if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && hasType(ItemCableType.INSTANCE)) {
+            if (side == null || !isExtracting(side)) {
+                setExtracting(side, true);
+                return LazyOptional.of(() -> CableItemHandler.INSTANCE).cast();
             }
-        }*/
+        }
 
         return super.getCapability(cap, side);
     }
@@ -100,7 +112,6 @@ public abstract class TileEntityCableLogic extends TileEntityBaseCable {
     @Override
     public void tick() {
         super.tick();
-
         if (level.isClientSide) {
             return;
         }
@@ -108,7 +119,6 @@ public abstract class TileEntityCableLogic extends TileEntityBaseCable {
         for (CableTypes<?> type : getCableTypes()) {
             type.tick(this);
         }
-
         if (hasType(EnergyCableType.INSTANCE)) {
             for (Direction side : Direction.values()) {
                 if (isExtracting(side)) {

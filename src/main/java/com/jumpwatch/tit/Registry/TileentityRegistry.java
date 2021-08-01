@@ -1,8 +1,12 @@
 package com.jumpwatch.tit.Registry;
 
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
+import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
+import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
+import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
 import com.jumpwatch.tit.Tileentity.TileEntityElectronic_Crusher;
 import com.jumpwatch.tit.Tileentity.TileEntitySolar_Panel_T1;
+import com.jumpwatch.tit.Tileentity.render.EnergyCableRenderer;
 import com.jumpwatch.tit.theimmersivetech;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import java.util.function.Supplier;
 
@@ -31,16 +36,26 @@ public class TileentityRegistry {
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
 
     public static TileEntityType<TileEntityEnergyCable> ENERGY_CABLE;
+    public static TileEntityType<TileEntityItemCable> ITEM_CABLE;
+    public static TileEntityType<TileEntityFluidCable> FLUID_CABLE;
 
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
         ENERGY_CABLE = TileEntityType.Builder.of(TileEntityEnergyCable::new, BlockRegistry.ENERGY_CABLE).build(null);
         ENERGY_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "energy_cable"));
         event.getRegistry().register(ENERGY_CABLE);
+
+        ITEM_CABLE = TileEntityType.Builder.of(TileEntityItemCable::new, BlockRegistry.ITEM_CABLE).build(null);
+        ITEM_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "item_cable"));
+        event.getRegistry().register(ITEM_CABLE);
+
+        FLUID_CABLE = TileEntityType.Builder.of(TileEntityFluidCable::new, BlockRegistry.FLUID_CABLE).build(null);
+        FLUID_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "fluid_cable"));
+        event.getRegistry().register(FLUID_CABLE);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void clientSetup() {
-
+        ClientRegistry.bindTileEntityRenderer(ENERGY_CABLE, EnergyCableRenderer::new);
     }
 
 }

@@ -38,14 +38,20 @@ public class BlockRegistry {
     public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion()));
 
     public static final BlockEnergyCable ENERGY_CABLE = new BlockEnergyCable();
+    public static final BlockItemCable ITEM_CABLE = new BlockItemCable();
+    public static final BlockFluidCable FLUID_CABLE = new BlockFluidCable();
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
-                ENERGY_CABLE
+                ENERGY_CABLE,
+                ITEM_CABLE,
+                FLUID_CABLE
         );
     }
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                ENERGY_CABLE.toItem()
+                ENERGY_CABLE.toItem(),
+                ITEM_CABLE.toItem(),
+                FLUID_CABLE.toItem()
         );
     }
 

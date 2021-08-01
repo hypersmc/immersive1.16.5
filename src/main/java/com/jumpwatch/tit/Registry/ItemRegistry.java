@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Registry;
 
 
+import com.jumpwatch.tit.Items.ItemVoltmeter;
 import com.jumpwatch.tit.Items.ItemWrench;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -18,9 +19,11 @@ public class ItemRegistry {
      */
 
     public static final ItemWrench WRENCH = new ItemWrench();
+    public static final ItemVoltmeter VOLTMETER = new ItemVoltmeter();
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                WRENCH
+                WRENCH,
+                VOLTMETER
         );
     }
 

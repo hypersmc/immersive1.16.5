@@ -16,22 +16,42 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class TileEntityBaseCable extends TileEntity implements ITickableTileEntity {
+    private static final Logger LOGGER = LogManager.getLogger();
     @Nullable
     protected List<Connection> connectionCache;
     protected boolean[] extractingSides;
     protected boolean[] disconnectedSides;
     private int invalidateCountdown;
+    private boolean isFluid = false;
+    private boolean isEnergy = false;
+    private boolean isItem = false;
 
-    public TileEntityBaseCable(TileEntityType<?> tileEntityTypeIn) {
+    public TileEntityBaseCable(TileEntityType<?> tileEntityTypeIn, boolean isItem, boolean isFluid, boolean isEnergy ) {
         super (tileEntityTypeIn);
         extractingSides = new boolean[Direction.values().length];
         disconnectedSides = new boolean[Direction.values().length];
+        this.isEnergy = isEnergy;
+        this.isFluid = isFluid;
+        this.isItem = isItem;
+
+    }
+
+    public boolean isFluid(){
+        return isFluid;
+    }
+    public boolean isEnergy(){
+        return isEnergy;
+    }
+    public boolean isItem(){
+        return isItem;
     }
 
     public List<Connection> getConnections(){
@@ -85,7 +105,7 @@ public abstract class TileEntityBaseCable extends TileEntity implements ITickabl
         return false;
     }
 
-    public static void markPipesDirty(World world, BlockPos pos) {
+    public static void markCablesDirty(World world, BlockPos pos) {
         List<BlockPos> travelPositions = new ArrayList<>();
         LinkedList<BlockPos> queue = new LinkedList<>();
         Block block = world.getBlockState(pos).getBlock();
@@ -106,11 +126,26 @@ public abstract class TileEntityBaseCable extends TileEntity implements ITickabl
                 }
             }
         }
+        travelPositions.add(pos);
+        addToDirtyList(world,pos,baseCable,travelPositions,queue);
+        while (queue.size() > 0) {
+            BlockPos blockPos = queue.removeFirst();
+            block = world.getBlockState(blockPos).getBlock();
+            if (block instanceof BlockBaseCable) {
+                addToDirtyList(world, blockPos, (BlockBaseCable) block, travelPositions, queue);
+            }
+        }
+        for (BlockPos p : travelPositions) {
+            TileEntity te = world.getBlockEntity(p);
+            if (!(te instanceof TileEntityBaseCable)) continue;
+            TileEntityBaseCable cable = (TileEntityBaseCable) te;
+            cable.connectionCache = null;
+        }
     }
 
-    private static void addToDirtyList(World world, BlockPos pos, BlockBaseCable pipeBlock, List<BlockPos> travelPositions, LinkedList<BlockPos> queue) {
+    private static void addToDirtyList(World world, BlockPos pos, BlockBaseCable cableBlock, List<BlockPos> travelPositions, LinkedList<BlockPos> queue) {
         for (Direction direction : Direction.values()) {
-            if (pipeBlock.isConnected(world, pos, direction)) {
+            if (cableBlock.isConnected(world, pos, direction)) {
                 BlockPos p = pos.relative(direction);
                 if (!travelPositions.contains(p) && !queue.contains(p)) {
                     travelPositions.add(p);

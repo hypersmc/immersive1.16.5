@@ -15,7 +15,7 @@ public class ItemWrench extends Item {
     }
 
     public static boolean isWrench(ItemStack stack) {
-        return stack.getItem().is(TagsRegistry.WRENCH_TAG);
+        return stack.getItem().getRegistryName().equals("wrench");
     }
 
     public static boolean isHoldingWrenchItem(PlayerEntity player) {

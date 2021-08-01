@@ -1,7 +1,9 @@
 package com.jumpwatch.tit.Tileentity.Types;
 
+import com.jumpwatch.tit.Tileentity.TileEntityBaseCable;
 import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
 import com.jumpwatch.tit.Utils.DirectionalPosition;
+import com.jumpwatch.tit.Utils.Filter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -19,7 +21,12 @@ public abstract class CableTypes<T> {
     public abstract boolean canInsert(TileEntity tileEntity, Direction direction);
     public abstract String getTranslationKey();
     public abstract ItemStack getIcon();
-
+    public boolean matchesConnection(TileEntityBaseCable.Connection connection, Filter<T> filter) {
+        if (filter.getDestination() == null) {
+            return true;
+        }
+        return filter.getDestination().equals(new DirectionalPosition(connection.getPos(), connection.getDirection()));
+    }
     public boolean deepExactCompare(INBT meta, INBT item) {
         if (meta instanceof CompoundNBT) {
             if (!(item instanceof CompoundNBT)) {

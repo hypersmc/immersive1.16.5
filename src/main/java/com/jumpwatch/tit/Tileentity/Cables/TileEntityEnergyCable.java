@@ -8,6 +8,6 @@ import net.minecraft.tileentity.TileEntityType;
 
 public class TileEntityEnergyCable extends TileEntityCableLogic {
     public TileEntityEnergyCable() {
-        super(TileentityRegistry.ENERGY_CABLE, new CableTypes[]{EnergyCableType.INSTANCE});
+        super(TileentityRegistry.ENERGY_CABLE, new CableTypes[]{EnergyCableType.INSTANCE}, false, false, true);
     }
 }

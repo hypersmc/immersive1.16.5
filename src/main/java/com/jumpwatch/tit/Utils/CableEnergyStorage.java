@@ -4,9 +4,11 @@ import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
 import com.jumpwatch.tit.Tileentity.Types.EnergyCableType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.energy.IEnergyStorage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CableEnergyStorage implements IEnergyStorage {
-
+    private static final Logger LOGGER = LogManager.getLogger();
     protected TileEntityCableLogic cable;
     protected Direction side;
     protected long lastReceived;
@@ -17,6 +19,7 @@ public class CableEnergyStorage implements IEnergyStorage {
     }
 
     public void tick(){
+
         if (cable.getLevel().getGameTime() - lastReceived > 1) {
             EnergyCableType.INSTANCE.pullEnergy(cable, side);
         }

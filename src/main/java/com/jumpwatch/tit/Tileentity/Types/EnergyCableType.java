@@ -48,7 +48,6 @@ public class EnergyCableType extends CableTypes<Void>{
         return null;
     }
     public void pullEnergy(TileEntityCableLogic tileEntity, Direction side) {
-        LOGGER.info("trying to pull power!");
         if (!tileEntity.isExtracting(side)) {
             return;
         }
@@ -216,6 +215,6 @@ public class EnergyCableType extends CableTypes<Void>{
         return te.getCapability(CapabilityEnergy.ENERGY, direction).orElse(null);
     }
     public int getRate() {
-        return 1;
+        return 51200;
     }
 }

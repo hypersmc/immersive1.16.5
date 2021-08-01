@@ -64,12 +64,12 @@ public abstract class BlockBaseCable extends Block implements IItemBlock {
     public static final VoxelShape SHAPE_EXTRACT_WEST = VoxelUtils.combine(SHAPE_WEST,  Block.box(0, 5, 5, 1, 11, 11));
 
     protected BlockBaseCable() {
-        super(AbstractBlock.Properties.of(Material.METAL).strength(0.5F).harvestLevel(3));
+        super(Block.Properties.of(Material.METAL).strength(0.5F).harvestLevel(3));
         registerDefaultState(stateDefinition.any().setValue(has_data, false).setValue(up, false).setValue(down, false).setValue(north, false).setValue(south, false).setValue(west, false).setValue(east, false));
     }
     @Override
     public Item toItem() {
-        return new BlockItem(this, new Item.Properties()).setRegistryName(getRegistryName());
+        return new BlockItem(this, new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS)).setRegistryName(getRegistryName());
     }
 
     @Override
@@ -117,7 +117,7 @@ public abstract class BlockBaseCable extends Block implements IItemBlock {
                 setDisconnected(worldIn, pos.relative(side), side.getOpposite(), false);
             }
         }
-        TileEntityBaseCable.markPipesDirty(worldIn, pos);
+        TileEntityBaseCable.markCablesDirty(worldIn, pos);
         return ActionResultType.SUCCESS;
     }
 
@@ -254,7 +254,9 @@ public abstract class BlockBaseCable extends Block implements IItemBlock {
     }
 
     public ActionResultType onCableSideForceActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit, @Nullable Direction side){
-        return onWrenchClicked(state,world,pos,player,hand,hit,side);
+
+        return onWrenchClicked(state, world, pos, player, hand, hit, side);
+
     }
     @Override
     public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
@@ -273,7 +275,7 @@ public abstract class BlockBaseCable extends Block implements IItemBlock {
         BlockState newState = getState(world, pos, state);
         if (!state.getProperties().stream().allMatch(property -> state.getValue(property).equals(newState.getValue(property)))){
             world.setBlockAndUpdate(pos, newState);
-            TileEntityBaseCable.markPipesDirty(world, pos);
+            TileEntityBaseCable.markCablesDirty(world, pos);
         }
     }
 
