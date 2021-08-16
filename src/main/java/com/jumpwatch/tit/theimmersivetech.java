@@ -2,6 +2,8 @@ package com.jumpwatch.tit;
 
 import com.jumpwatch.tit.Registry.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,7 +46,10 @@ public class theimmersivetech
 
     @OnlyIn(Dist.CLIENT)
     public void clientSetup(FMLClientSetupEvent event) {
+        RenderTypeLookup.setRenderLayer(BlockRegistry.ITEM_CABLE.getBlock(), RenderType.cutout() );
         TileentityRegistry.clientSetup();
     }
+
+
 
 }

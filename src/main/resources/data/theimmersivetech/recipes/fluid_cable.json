@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "xxx",
+        "aaa",
+        "xxx"
+    ],
+    "key":
+    {
+        "x":
+        {
+            "tag": "forge:ingots/bronze"
+        },
+        "a":
+        {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result":
+    {
+        "item": "theimmersivetech:fluid_cable",
+        "count": 6
+    }
+}

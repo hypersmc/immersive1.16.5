@@ -223,7 +223,6 @@ public abstract class TileEntityBaseCable extends TileEntity implements ITickabl
         disconnectedSides[side.get3DDataValue()] = disconnected;
         setChanged();
     }
-
     public static class Connection {
         private final BlockPos pos;
         private final Direction direction;

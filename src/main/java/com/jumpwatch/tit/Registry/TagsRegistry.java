@@ -7,4 +7,5 @@ import net.minecraft.util.ResourceLocation;
 
 public class TagsRegistry {
     public static final ITag.INamedTag<Item> WRENCH_TAG = ItemTags.createOptional(new ResourceLocation("forge", "tools/wrench"));
+
 }

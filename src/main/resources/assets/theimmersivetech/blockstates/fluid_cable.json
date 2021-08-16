@@ -1,0 +1,26 @@
+  
+{
+    "multipart": [
+        {   "apply": { "model": "theimmersivetech:block/fluidpipecenter" }},
+        {   "when": { "north": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "uvlock": false }
+        },
+        {   "when": { "east": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "y": 90, "uvlock": false }
+        },
+        {   "when": { "south": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "y": 180, "uvlock": false }
+        },
+        {   "when": { "west": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "y": 270, "uvlock": false }
+        },
+        {   "when": { "up": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "x": 270, "uvlock": false }
+        },
+        {   "when": { "down": "true" },
+            "apply": { "model": "theimmersivetech:block/fluidpipelimb", "x": 90, "uvlock": false }
+        }
+    ]
+}
+
+
