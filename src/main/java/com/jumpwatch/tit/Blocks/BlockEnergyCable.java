@@ -1,7 +1,7 @@
 package com.jumpwatch.tit.Blocks;
 
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 public class BlockEnergyCable extends BlockBaseCable {
     public BlockEnergyCable() {
 
-        setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "energy_cable"));
+        setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "energy_cable"));
 
     }
     private static final Logger LOGGER = LogManager.getLogger();

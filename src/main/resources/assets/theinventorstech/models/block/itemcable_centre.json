@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "theinventorstech:block/pipemap",
+		"particle": "theinventorstech:block/pipeparticle"
+	},
+	"elements": [
+		{
+			"from": [5.0075, 5.0075, 5.0075],
+			"to": [10.9925, 10.9925, 10.9925],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5.0075, 5.0075, 2.015]},
+			"faces": {
+				"north": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"east": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"south": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"west": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#0"}
+			}
+		}
+	]
+}

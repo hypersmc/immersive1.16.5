@@ -1,6 +1,6 @@
 package com.jumpwatch.tit.Registry;
 
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 
 public class WrenchTagProvider extends TagsProvider<Item> {
     public WrenchTagProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generatorIn, Registry.ITEM, theimmersivetech.MOD_ID, existingFileHelper);
+        super(generatorIn, Registry.ITEM, theinventorstech.MOD_ID, existingFileHelper);
     }
 
     @Override

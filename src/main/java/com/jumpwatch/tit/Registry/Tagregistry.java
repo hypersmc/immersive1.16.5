@@ -1,6 +1,6 @@
 package com.jumpwatch.tit.Registry;
 
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
@@ -15,7 +15,7 @@ public class Tagregistry {
 
     public static class Blocks {
         private static Tags.IOptionalNamedTag<Block> createTag(String name) {
-            return BlockTags.createOptional(new ResourceLocation(theimmersivetech.MOD_ID, name));
+            return BlockTags.createOptional(new ResourceLocation(theinventorstech.MOD_ID, name));
         }
         private static Tags.IOptionalNamedTag<Block> createForgetag(String name) {
             return BlockTags.createOptional(new ResourceLocation("forge", name));
@@ -26,7 +26,7 @@ public class Tagregistry {
         public static final Tags.IOptionalNamedTag<Item> Itemironplate = createTag("itemironplate");
 
         private static Tags.IOptionalNamedTag<Item> createTag(String name) {
-            return ItemTags.createOptional(new ResourceLocation(theimmersivetech.MOD_ID, name));
+            return ItemTags.createOptional(new ResourceLocation(theinventorstech.MOD_ID, name));
         }
         private static Tags.IOptionalNamedTag<Item> createForgetag(String name) {
             return ItemTags.createOptional(new ResourceLocation("forge", name));

@@ -7,7 +7,7 @@ import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
 import com.jumpwatch.tit.Tileentity.TileEntityElectronic_Crusher;
 import com.jumpwatch.tit.Tileentity.TileEntitySolar_Panel_T1;
 import com.jumpwatch.tit.Tileentity.render.EnergyCableRenderer;
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -41,15 +41,15 @@ public class TileentityRegistry {
 
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
         ENERGY_CABLE = TileEntityType.Builder.of(TileEntityEnergyCable::new, BlockRegistry.ENERGY_CABLE).build(null);
-        ENERGY_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "energy_cable"));
+        ENERGY_CABLE.setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "energy_cable"));
         event.getRegistry().register(ENERGY_CABLE);
 
         ITEM_CABLE = TileEntityType.Builder.of(TileEntityItemCable::new, BlockRegistry.ITEM_CABLE).build(null);
-        ITEM_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "item_cable"));
+        ITEM_CABLE.setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "item_cable"));
         event.getRegistry().register(ITEM_CABLE);
 
         FLUID_CABLE = TileEntityType.Builder.of(TileEntityFluidCable::new, BlockRegistry.FLUID_CABLE).build(null);
-        FLUID_CABLE.setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "fluid_cable"));
+        FLUID_CABLE.setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "fluid_cable"));
         event.getRegistry().register(FLUID_CABLE);
     }
 

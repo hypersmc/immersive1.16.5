@@ -1,5 +1,5 @@
 package com.jumpwatch.tit.Registry;
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -43,6 +43,6 @@ public class theimmersiveregistry {
     }
 
     private static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {
-        return DeferredRegister.create(registry, theimmersivetech.MOD_ID);
+        return DeferredRegister.create(registry, theinventorstech.MOD_ID);
     }
 }

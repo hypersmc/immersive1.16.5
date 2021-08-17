@@ -1,13 +1,12 @@
 package com.jumpwatch.tit.Registry;
 
 
-import com.jumpwatch.tit.Items.ItemIronPlate;
+import com.jumpwatch.tit.Items.item.ItemCrushedCopper;
+import com.jumpwatch.tit.Items.item.ItemIronPlate;
 import com.jumpwatch.tit.Items.ItemVoltmeter;
 import com.jumpwatch.tit.Items.ItemWrench;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-
-import java.security.PublicKey;
 
 public class ItemRegistry {
 
@@ -24,11 +23,13 @@ public class ItemRegistry {
     public static final ItemWrench WRENCH = new ItemWrench();
     public static final ItemVoltmeter VOLTMETER = new ItemVoltmeter();
     public static final ItemIronPlate ITEM_IRON_PLATE = new ItemIronPlate();
+    public static final ItemCrushedCopper ItemCrushedCopper = new ItemCrushedCopper();
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 WRENCH,
                 VOLTMETER,
-                ITEM_IRON_PLATE
+                ITEM_IRON_PLATE,
+                ItemCrushedCopper
         );
     }
 

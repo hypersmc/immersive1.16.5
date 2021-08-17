@@ -3,7 +3,7 @@ package com.jumpwatch.tit.Blocks;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
-import com.jumpwatch.tit.theimmersivetech;
+import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class BlockFluidCable extends BlockBaseCable{
     public BlockFluidCable(){
-        setRegistryName(new ResourceLocation(theimmersivetech.MOD_ID, "fluid_cable"));
+        setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "fluid_cable"));
 
 
     }

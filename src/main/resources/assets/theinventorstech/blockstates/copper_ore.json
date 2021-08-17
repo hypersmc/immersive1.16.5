@@ -1,0 +1,8 @@
+{
+  "__comment": "Add the following line on the same level as a 'model' declaration.",
+  "custom": { "flip-v": true },
+  "model": "theinventorstech:block/copper_ore.json",
+  "variants": {
+        "":    { "model": "theinventorstech:block/copper_ore" }
+    }
+}
