@@ -5,9 +5,10 @@
     "block.theinventorstech.solar_panel_t1_subpanel": "Solar Panel Tier 1 SubPanel",
     "block.theinventorstech.item_cable": "Item Cable",
     "block.theinventorstech.fluid_cable": "Fluid Cable",
+    "block.theinventorstech.copper_ore": "Copper Ore",
     "item.theinventorstech.wrench": "Wrench",
     "item.theinventorstech.voltmeter": "Voltmeter",
-    "item.theinventorstech.itemironplate": "Iron Plate"
-
+    "item.theinventorstech.itemironplate": "Iron Plate",
+    "item.theinventorstech.itemcrushedcopper": "Crushed Copper"
 }
 

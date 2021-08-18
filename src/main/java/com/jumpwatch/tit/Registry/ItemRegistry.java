@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Registry;
 
 
+import com.jumpwatch.tit.Items.ItemSolarCell;
 import com.jumpwatch.tit.Items.item.ItemCrushedCopper;
 import com.jumpwatch.tit.Items.item.ItemIronPlate;
 import com.jumpwatch.tit.Items.ItemVoltmeter;
@@ -24,12 +25,14 @@ public class ItemRegistry {
     public static final ItemVoltmeter VOLTMETER = new ItemVoltmeter();
     public static final ItemIronPlate ITEM_IRON_PLATE = new ItemIronPlate();
     public static final ItemCrushedCopper ItemCrushedCopper = new ItemCrushedCopper();
+    public static final ItemSolarCell ItemSolarCell = new ItemSolarCell();
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
                 WRENCH,
                 VOLTMETER,
                 ITEM_IRON_PLATE,
-                ItemCrushedCopper
+                ItemCrushedCopper,
+                ItemSolarCell
         );
     }
 

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ccc",
+    "bbb",
+    "aaa"
+  ],
+  "key":
+  {
+    "a":
+    {
+      "tag": "forge:plates/iron"
+    },
+    "b":
+    {
+      "item": "minecraft:redstone"
+    },
+    "c":
+    {
+      "item": "minecraft:glass"
+    }
+  },
+  "result":
+  {
+    "item": "theinventorstech:solarcell",
+    "count": 1
+  }
+}
