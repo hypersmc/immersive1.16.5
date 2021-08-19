@@ -37,7 +37,7 @@ public class BlockRegistry {
     *   public static final RegistryObject<Block> test_block = register("test_block", () -> new testBlock(AbstractBlock.Properties.of(Material.BAMBOO).dynamicShape()));
     */
 
-    public static final RegistryObject<Block> Macerator = register("macerator", () -> new BlockCrusher(AbstractBlock.Properties.of(Material.METAL).strength(3.5F)));
+    public static final RegistryObject<Block> Macerator = register("macerator", () -> new BlockCrusher(AbstractBlock.Properties.of(Material.METAL).strength(3.5F).noOcclusion()));
     public static final RegistryObject<Block> Solar_Panel_T1 = register("solar_panel_t1", () -> new BlockSolar_Panel_T1(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F)));
     public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F)));
     public static final RegistryObject<Block> BlockCopperOre = register("copper_ore", () -> new BlockCopperOre(AbstractBlock.Properties.of(Material.METAL).noOcclusion().harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3.0F)));
