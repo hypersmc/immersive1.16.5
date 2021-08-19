@@ -3,8 +3,7 @@ package com.jumpwatch.tit.Registry;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
-import com.jumpwatch.tit.Tileentity.TileEntityCableLogic;
-import com.jumpwatch.tit.Tileentity.TileEntityElectronic_Crusher;
+import com.jumpwatch.tit.Tileentity.TileEntityBlockCrusher;
 import com.jumpwatch.tit.Tileentity.TileEntitySolar_Panel_T1;
 import com.jumpwatch.tit.Tileentity.render.EnergyCableRenderer;
 import com.jumpwatch.tit.theinventorstech;
@@ -32,8 +31,8 @@ public class TileentityRegistry {
         });
     }
 
-    public static final RegistryObject<TileEntityType<TileEntityElectronic_Crusher>> Electronic_crusher = register("electronic_crusher", TileEntityElectronic_Crusher::new, BlockRegistry.Electronic_crusher);
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
+    public static final RegistryObject<TileEntityType<TileEntityBlockCrusher>> Block_Crusher = register("Macerator", TileEntityBlockCrusher::new, BlockRegistry.Macerator);
 
     public static TileEntityType<TileEntityEnergyCable> ENERGY_CABLE;
     public static TileEntityType<TileEntityItemCable> ITEM_CABLE;
