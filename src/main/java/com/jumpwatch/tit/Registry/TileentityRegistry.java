@@ -32,7 +32,7 @@ public class TileentityRegistry {
     }
 
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
-    public static final RegistryObject<TileEntityType<TileEntityBlockCrusher>> Block_Crusher = register("Macerator", TileEntityBlockCrusher::new, BlockRegistry.Macerator);
+    public static final RegistryObject<TileEntityType<TileEntityBlockCrusher>> Block_Crusher = register("macerator", TileEntityBlockCrusher::new, BlockRegistry.Macerator);
 
     public static TileEntityType<TileEntityEnergyCable> ENERGY_CABLE;
     public static TileEntityType<TileEntityItemCable> ITEM_CABLE;
