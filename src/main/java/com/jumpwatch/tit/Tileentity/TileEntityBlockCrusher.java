@@ -16,7 +16,13 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable {
 
     private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         event.getController().transitionLengthTicks = 0;
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", true));
+        if (event.getAnimatable().getLevel().isRaining()){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("on", true));
+
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("off", true));
+
+        }
         return PlayState.CONTINUE;
     }
     public TileEntityBlockCrusher() {
