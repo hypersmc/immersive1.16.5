@@ -6,9 +6,11 @@
     "block.theinventorstech.item_cable": "Item Cable",
     "block.theinventorstech.fluid_cable": "Fluid Cable",
     "block.theinventorstech.copper_ore": "Copper Ore",
+    "block.theinventorstech.electronicassembler": "Electronic Assembler",
     "item.theinventorstech.wrench": "Wrench",
     "item.theinventorstech.voltmeter": "Voltmeter",
     "item.theinventorstech.itemironplate": "Iron Plate",
-    "item.theinventorstech.itemcrushedcopper": "Crushed Copper"
+    "item.theinventorstech.itemcrushedcopper": "Crushed Copper",
+    "itemGroup.TITBlocks": "The Inventor's Tech"
 }
 

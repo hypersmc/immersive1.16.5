@@ -3,6 +3,7 @@ package com.jumpwatch.tit.Registry;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
+import com.jumpwatch.tit.Tileentity.TileEntitiyBlockElectronicAssembler;
 import com.jumpwatch.tit.Tileentity.TileEntityBlockCrusher;
 import com.jumpwatch.tit.Tileentity.TileEntitySolar_Panel_T1;
 import com.jumpwatch.tit.Tileentity.render.EnergyCableRenderer;
@@ -25,7 +26,7 @@ public class TileentityRegistry {
     static void register() {}
 
     private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String name, Supplier<T> factory, RegistryObject<? extends Block> block) {
-        return theimmersiveregistry.TILE_ENTITIES.register(name, () -> {
+        return theinventorsregistry.TILE_ENTITIES.register(name, () -> {
             //noinspection ConstantConditions - null in build
             return TileEntityType.Builder.of(factory, block.get()).build(null);
         });
@@ -33,7 +34,7 @@ public class TileentityRegistry {
 
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
     public static final RegistryObject<TileEntityType<TileEntityBlockCrusher>> Block_Crusher = register("macerator", TileEntityBlockCrusher::new, BlockRegistry.Macerator);
-
+    public static final RegistryObject<TileEntityType<TileEntitiyBlockElectronicAssembler>> Block_electronicassembler = register("electronicassembler", TileEntitiyBlockElectronicAssembler::new, BlockRegistry.ElectronicAssembler);
     public static TileEntityType<TileEntityEnergyCable> ENERGY_CABLE;
     public static TileEntityType<TileEntityItemCable> ITEM_CABLE;
     public static TileEntityType<TileEntityFluidCable> FLUID_CABLE;

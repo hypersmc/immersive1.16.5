@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Items;
 
 import com.jumpwatch.tit.Registry.TagsRegistry;
+import com.jumpwatch.tit.Registry.theinventorsregistry;
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -10,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class ItemWrench extends Item {
     public ItemWrench() {
-        super(new Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS).stacksTo(1));
+        super(new Properties().tab(theinventorsregistry.TIT_Group1).stacksTo(1));
         setRegistryName(new ResourceLocation(theinventorstech.MOD_ID, "wrench"));
     }
 

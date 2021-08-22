@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Blocks;
 
 import com.jumpwatch.tit.Items.ItemWrench;
+import com.jumpwatch.tit.Registry.theinventorsregistry;
 import com.jumpwatch.tit.Tileentity.TileEntityBaseCable;
 import com.jumpwatch.tit.Utils.IItemBlock;
 import com.jumpwatch.tit.Utils.Pair;
@@ -64,12 +65,12 @@ public abstract class BlockBaseCable extends Block implements IItemBlock {
     public static final VoxelShape SHAPE_EXTRACT_WEST = VoxelUtils.combine(SHAPE_WEST,  Block.box(0, 5, 5, 1, 11, 11));
 
     protected BlockBaseCable() {
-        super(Block.Properties.of(Material.METAL).strength(0.5F).harvestLevel(3));
+        super(Block.Properties.of(Material.METAL).strength(0.5F).harvestLevel(0).requiresCorrectToolForDrops());
         registerDefaultState(stateDefinition.any().setValue(has_data, false).setValue(up, false).setValue(down, false).setValue(north, false).setValue(south, false).setValue(west, false).setValue(east, false));
     }
     @Override
     public Item toItem() {
-        return new BlockItem(this, new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS)).setRegistryName(getRegistryName());
+        return new BlockItem(this, new Item.Properties().tab(theinventorsregistry.TIT_Group1)).setRegistryName(getRegistryName());
     }
 
     @Override

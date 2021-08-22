@@ -1,8 +1,11 @@
 package com.jumpwatch.tit.Registry;
+import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -14,7 +17,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class theimmersiveregistry {
+public class theinventorsregistry {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
@@ -22,10 +25,18 @@ public class theimmersiveregistry {
     public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = create(ForgeRegistries.TILE_ENTITIES);
 
+    public static final ItemGroup TIT_Group1 = new ItemGroup("TITBlocks") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(BlockRegistry.Solar_Panel_T1_SubPanels.get());
+        }
+    };
+
     public static void register(){
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
+        ContainerRegistry.containerRegistry();
         ITEMS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
@@ -40,6 +51,7 @@ public class theimmersiveregistry {
         RecipeRegistry.register();
         LOGGER.info("Starting Registry of containers (GUI)");
         ContainerRegistryTypes.register();
+
     }
 
     private static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {

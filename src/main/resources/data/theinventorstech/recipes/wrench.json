@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "a a",
+    "aaa",
+    " a "
+  ],
+  "key":
+  {
+    "a":
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result":
+  {
+    "item": "theinventorstech:wrench",
+    "count": 1
+  }
+}

@@ -1,5 +1,7 @@
 package com.jumpwatch.tit.crafting.recipe;
 
+import com.jumpwatch.tit.Registry.BlockRegistry;
+import com.jumpwatch.tit.Registry.ItemRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -11,8 +13,7 @@ public class CrusherRecipes {
 
 
     public static void CrusherRecipes(){
-        recipes.add(new CrusherRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Items.IRON_INGOT), 0.0F));
-        recipes.add(new CrusherRecipe(new ItemStack(Blocks.GOLD_ORE), new ItemStack(Items.GOLD_INGOT), 0.0f));
+        recipes.add(new CrusherRecipe(new ItemStack(BlockRegistry.BlockCopperOre.get()), new ItemStack(ItemRegistry.ItemCrushedCopper), 0.0F));
     }
     public static CrusherRecipe findRecipe(ItemStack input) {
         if (input.isEmpty()) return null;

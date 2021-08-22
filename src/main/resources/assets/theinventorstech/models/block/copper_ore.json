@@ -1,7 +1,12 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "theinventorstech:block/copperore",
+    "down": "theinventorstech:block/copperore",
+    "up": "theinventorstech:block/copperore",
+    "north": "theinventorstech:block/copperore",
+    "south": "theinventorstech:block/copperore",
+    "east": "theinventorstech:block/copperore",
+    "west": "theinventorstech:block/copperore",
     "particle": "theinventorstech:block/copperore"
   }
 }

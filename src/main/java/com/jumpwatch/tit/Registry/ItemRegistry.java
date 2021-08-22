@@ -6,8 +6,10 @@ import com.jumpwatch.tit.Items.item.ItemCrushedCopper;
 import com.jumpwatch.tit.Items.item.ItemIronPlate;
 import com.jumpwatch.tit.Items.ItemVoltmeter;
 import com.jumpwatch.tit.Items.ItemWrench;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.RegistryObject;
 
 public class ItemRegistry {
 
@@ -20,6 +22,7 @@ public class ItemRegistry {
      *
      *   public static final RegistryObject<Item> testitem = globalreg.ITEMS.register("test_item", () -> new testItem(new Item.Properties().durability(300)));
      */
+    //public static final RegistryObject<Item> CopperItem =  theinventorsregistry.ITEMS.register("copper_ore", () -> new BlockItem(BlockRegistry.BlockCopperOre.get(), new Item.Properties().tab()))
 
     public static final ItemWrench WRENCH = new ItemWrench();
     public static final ItemVoltmeter VOLTMETER = new ItemVoltmeter();

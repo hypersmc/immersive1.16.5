@@ -2,7 +2,9 @@ package com.jumpwatch.tit.Registry;
 
 import com.jumpwatch.tit.Blocks.*;
 import com.jumpwatch.tit.Blocks.Machines.BlockCrusher;
+import com.jumpwatch.tit.Blocks.Machines.BlockElectronicAssembler;
 import com.jumpwatch.tit.Blocks.Ore.BlockCopperOre;
+import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,12 +23,12 @@ public class BlockRegistry {
 
     private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block) {
 
-        return theimmersiveregistry.BLOCKS.register(name, block);
+        return theinventorsregistry.BLOCKS.register(name, block);
     }
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
         RegistryObject<T> ret = registerNoItem(name, block);
-        theimmersiveregistry.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS)));
+        theinventorsregistry.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(theinventorsregistry.TIT_Group1)));
         return ret;
     }
 
@@ -36,11 +38,13 @@ public class BlockRegistry {
     *
     *   public static final RegistryObject<Block> test_block = register("test_block", () -> new testBlock(AbstractBlock.Properties.of(Material.BAMBOO).dynamicShape()));
     */
+    public static final RegistryObject<Block> ElectronicAssembler = register("electronicassembler", () -> new BlockElectronicAssembler(AbstractBlock.Properties.of(Material.METAL).strength(3.5F).noOcclusion().requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> Macerator = register("macerator", () -> new BlockCrusher(AbstractBlock.Properties.of(Material.METAL).strength(3.5F).noOcclusion().requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> Solar_Panel_T1 = register("solar_panel_t1", () -> new BlockSolar_Panel_T1(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> BlockCopperOre = register("copper_ore", () -> new BlockCopperOre(AbstractBlock.Properties.of(Material.METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).strength(3.0F).requiresCorrectToolForDrops()));
 
-    public static final RegistryObject<Block> Macerator = register("macerator", () -> new BlockCrusher(AbstractBlock.Properties.of(Material.METAL).strength(3.5F).noOcclusion()));
-    public static final RegistryObject<Block> Solar_Panel_T1 = register("solar_panel_t1", () -> new BlockSolar_Panel_T1(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F)));
-    public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F)));
-    public static final RegistryObject<Block> BlockCopperOre = register("copper_ore", () -> new BlockCopperOre(AbstractBlock.Properties.of(Material.METAL).noOcclusion().harvestLevel(2).harvestTool(ToolType.PICKAXE).strength(3.0F)));
+
 
     public static final BlockEnergyCable ENERGY_CABLE = new BlockEnergyCable();
     public static final BlockItemCable ITEM_CABLE = new BlockItemCable();
@@ -57,6 +61,7 @@ public class BlockRegistry {
                 ENERGY_CABLE.toItem(),
                 ITEM_CABLE.toItem(),
                 FLUID_CABLE.toItem()
+
         );
     }
 
