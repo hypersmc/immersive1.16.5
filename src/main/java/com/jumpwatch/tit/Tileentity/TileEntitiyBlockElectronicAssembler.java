@@ -2,7 +2,6 @@ package com.jumpwatch.tit.Tileentity;
 
 import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.crafting.recipe.AssemblerRecipes;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
