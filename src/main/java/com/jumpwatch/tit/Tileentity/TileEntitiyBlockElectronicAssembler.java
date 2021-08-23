@@ -70,7 +70,7 @@ public class TileEntitiyBlockElectronicAssembler extends TileEntity implements /
 
     public void doProcess(){
         isrunning = false;
-        itemHandler.insertItem(9, CrusherRecipes.findRecipe(itemHandler.getStackInSlot(0)).getOutput(), false);
+        itemHandler.insertItem(9, AssemblerRecipes.findRecipe(itemHandler.getStackInSlot(0),itemHandler.getStackInSlot(1),itemHandler.getStackInSlot(2),itemHandler.getStackInSlot(3),itemHandler.getStackInSlot(4),itemHandler.getStackInSlot(5),itemHandler.getStackInSlot(6),itemHandler.getStackInSlot(7),itemHandler.getStackInSlot(8)).getOutput(), false);
         itemHandler.extractItem(0, 1, false);
         itemHandler.extractItem(1, 1, false);
         itemHandler.extractItem(2, 1, false);
