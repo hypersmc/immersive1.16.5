@@ -1,5 +1,7 @@
 package com.jumpwatch.tit.crafting.recipe;
 
+import com.jumpwatch.tit.Registry.BlockRegistry;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ public class AssemblerRecipes {
     private static final List<AssemblerRecipe> recipes = new ArrayList<>();
 
     public static void AssemblerRecipes(){
+        recipes.add(new AssemblerRecipe(new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS),new ItemStack(Blocks.GLASS), new ItemStack(BlockRegistry.FLUID_CABLE), 0.0F));
 
     }
     public static AssemblerRecipe findRecipe(ItemStack slot0, ItemStack slot1, ItemStack slot2, ItemStack slot3, ItemStack slot4, ItemStack slot5, ItemStack slot6, ItemStack slot7, ItemStack slot8){
