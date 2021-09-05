@@ -41,6 +41,20 @@ public class AssemblerRecipes {
         private final ItemStack output;
         private final float experience;
 
+        /**
+         *
+         * @param slot0 input of slot 1
+         * @param slot1 input of slot 2
+         * @param slot2 input of slot 3
+         * @param slot3 input of slot 4
+         * @param slot4 input of slot 5
+         * @param slot5 input of slot 6
+         * @param slot6 input of slot 7
+         * @param slot7 input of slot 8
+         * @param slot8 input of slot 9
+         * @param output output of slot 1 (10)
+         * @param experience XP to be given.
+         */
         public AssemblerRecipe(ItemStack slot0, ItemStack slot1, ItemStack slot2, ItemStack slot3, ItemStack slot4, ItemStack slot5, ItemStack slot6, ItemStack slot7, ItemStack slot8, ItemStack output, float experience){
             this.input = slot0;
             this.input2 = slot1;
