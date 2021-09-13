@@ -3,7 +3,6 @@ package com.jumpwatch.tit.crafting.recipe;
 import com.jumpwatch.tit.Registry.BlockRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
 

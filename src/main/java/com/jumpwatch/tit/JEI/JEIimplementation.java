@@ -2,9 +2,11 @@ package com.jumpwatch.tit.JEI;
 
 
 
+import com.jumpwatch.tit.Registry.RecipeRegistry;
 import com.jumpwatch.tit.theinventorstech;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 
@@ -28,11 +30,13 @@ public class JEIimplementation implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
+        registration.addRecipes(getRecipes(manager, RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE), CrusherRecipeCategory.id);
     }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        IModPlugin.super.registerCategories(registration);
+        IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
+        registration.addRecipeCategories(new CrusherRecipeCategory(helper));
     }
 
     private static Collection<?> getRecipes(RecipeManager manager, IRecipeType<?> type) {

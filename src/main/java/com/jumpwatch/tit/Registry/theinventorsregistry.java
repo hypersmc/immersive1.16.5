@@ -40,16 +40,10 @@ public class theinventorsregistry {
         ITEMS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
-
-        LOGGER.info("Starting Registry of items");
         ItemRegistry.register();
-        LOGGER.info("Starting Registry of blocks");
         BlockRegistry.register();
-        LOGGER.info("Starting Registry of tileentity");
         TileentityRegistry.register();
-        LOGGER.info("Starting Registry of recipes");
         RecipeRegistry.register();
-        LOGGER.info("Starting Registry of containers (GUI)");
         ContainerRegistryTypes.register();
 
     }
