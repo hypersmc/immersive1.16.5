@@ -5,15 +5,13 @@ import com.jumpwatch.tit.Registry.RecipeRegistry;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.SingleItemRecipe;
+import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +45,12 @@ public class CrusherRecipeNew extends SingleItemRecipe {
     public boolean matches(IInventory inv, World world) {
         return this.ingredient.test(inv.getItem(0));
     }
+
+    @Override
+    public ItemStack assemble(IInventory p_77572_1_) {
+        return super.assemble(p_77572_1_);
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrusherRecipeNew> {
 
         @Override

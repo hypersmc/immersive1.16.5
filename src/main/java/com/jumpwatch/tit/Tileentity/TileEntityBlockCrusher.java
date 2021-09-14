@@ -2,31 +2,23 @@ package com.jumpwatch.tit.Tileentity;
 
 import com.jumpwatch.tit.Registry.RecipeRegistry;
 import com.jumpwatch.tit.Registry.TileentityRegistry;
-
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.crafting.recipe.CrusherRecipeNew;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.texture.ITickable;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -40,7 +32,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, ITickableTileEntity, ISidedInventory {
+public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, ITickableTileEntity {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private CustomEnergyStorage energyStorage = createEnergy();
@@ -52,15 +44,16 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
     public static int cookTime;
     @Override
     public void tick() {
+        ItemStack inSlot = itemHandler.getStackInSlot(0);
         if (this.energyStorage.getEnergyStored() < forevery){
             LOGGER.info("something did not pass!");
             isrunning = false;
             return;
         }
+        if (inSlot.isEmpty()) return;
         CrusherRecipeNew recipe = getRecipe();
         if (recipe != null){
             isrunning = true;
-
             dowork(recipe);
         }else{
             LOGGER.info("no recipe found!");
@@ -127,28 +120,32 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
     @Nullable
     public CrusherRecipeNew getRecipe() {
         ItemStack inSlot = itemHandler.getStackInSlot(0);
-        LOGGER.info("Trying to fetch recipe!");
+        LOGGER.info("Trying to fetch recipe!"); //this is checking
         if (this.level == null || inSlot.isEmpty()){
-            LOGGER.info("slot empty!");
+            LOGGER.info("slot empty!"); //this is checking
             return null;
         }
-        LOGGER.info("Recipe found!");
-        return this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE, this, this.level).orElse(null);
+        LOGGER.info(level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), level));
+        return level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), level).orElse(null);
     }
     private ItemStack getWorkOutput(@Nullable CrusherRecipeNew recipe) {
+
         if (recipe != null){
-            return recipe.assemble(this);
+            return recipe.assemble(new RecipeWrapper(itemHandler));
         }
         return ItemStack.EMPTY;
     }
     private void dowork(CrusherRecipeNew recipe){
+        ItemStack inSlot = itemHandler.getStackInSlot(0);
+        LOGGER.info("Trying to do work.");
         isrunning = true;
         assert this.level != null;
-        ItemStack current = getItem(1);
+        ItemStack current = inSlot;
         ItemStack output = getWorkOutput(recipe);
         if (!current.isEmpty()) {
             int newCount = current.getCount() + output.getCount();
             if (!ItemStack.matches(current, output) || newCount > output.getMaxStackSize()){
+                LOGGER.info("Can't do work. E504");
                 stopwork();
                 return;
             }
@@ -166,13 +163,15 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
         cookTime = 0;
     }
     private void finishwork(CrusherRecipeNew recipe, ItemStack current, ItemStack output){
+        ItemStack inSlot = itemHandler.getStackInSlot(0);
+        ItemStack outSlot = itemHandler.getStackInSlot(0);
         if (!current.isEmpty()) {
             current.grow(output.getCount());
         }else{
-            setItem(1, output);
+            itemHandler.insertItem(1, output, false);
         }
         cookTime = 0;
-        this.removeItem(0,1);
+        itemHandler.extractItem(0,1, false);
     }
     private CustomEnergyStorage createEnergy() {
         return new CustomEnergyStorage(25000, 32) {
@@ -265,63 +264,5 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
                 return super.insertItem(slot, stack, simulate);
             }
         };
-    }
-
-
-    @Override
-    public int[] getSlotsForFace(Direction direction) {
-        return new int[]{0, 1};
-    }
-
-    @Override
-    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
-        return this.canPlaceItem(index, stack);
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
-        return index == 1;
-    }
-
-    @Override
-    public int getContainerSize() {
-        return 2;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return getItem(0).isEmpty() && getItem(1).isEmpty();
-    }
-
-    @Override
-    public ItemStack getItem(int index) {
-        ItemStack item = itemHandler.getStackInSlot(index);
-        return item;
-    }
-
-
-    @Override
-    public ItemStack removeItem(int index, int count) {
-        return ItemStackHelper.removeItem(items, index, count);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int index) {
-        return ItemStackHelper.takeItem(items, index);
-    }
-
-    @Override
-    public void setItem(int index, ItemStack stack) {
-        items.set(index, stack);
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity player) {
-        return this.level != null && this.level.getBlockEntity(this.worldPosition) == this && player.distanceToSqr(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ()) <= 64;
-    }
-
-    @Override
-    public void clearContent() {
-        items.clear();
     }
 }
