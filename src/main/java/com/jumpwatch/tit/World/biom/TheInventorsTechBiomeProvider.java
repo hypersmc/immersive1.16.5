@@ -1,4 +1,4 @@
-package com.jumpwatch.tit.Dim;
+package com.jumpwatch.tit.World.biom;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.RegistryKey;
@@ -11,9 +11,7 @@ import net.minecraft.world.gen.feature.structure.Structure;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TheInventorsTechBiomeProvider extends BiomeProvider {
     public static final Codec<TheInventorsTechBiomeProvider> CODEC = RegistryLookupCodec.create(Registry.BIOME_REGISTRY).xmap(TheInventorsTechBiomeProvider::new, TheInventorsTechBiomeProvider::getBiomeRegistry).codec();

@@ -1,11 +1,10 @@
-package com.jumpwatch.tit.Dim;
+package com.jumpwatch.tit.World.biom;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
