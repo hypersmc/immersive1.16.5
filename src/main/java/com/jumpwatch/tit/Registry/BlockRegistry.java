@@ -3,6 +3,7 @@ package com.jumpwatch.tit.Registry;
 import com.jumpwatch.tit.Blocks.*;
 import com.jumpwatch.tit.Blocks.Machines.BlockCrusher;
 import com.jumpwatch.tit.Blocks.Machines.BlockElectronicAssembler;
+import com.jumpwatch.tit.Blocks.Ore.BlockCasseriteOre;
 import com.jumpwatch.tit.Blocks.Ore.BlockCopperOre;
 import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.AbstractBlock;
@@ -43,7 +44,7 @@ public class BlockRegistry {
     public static final RegistryObject<Block> Solar_Panel_T1 = register("solar_panel_t1", () -> new BlockSolar_Panel_T1(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> Solar_Panel_T1_SubPanels = register("solar_panel_t1_subpanel", () -> new BlockSolar_Panel_T1_SubPanels(AbstractBlock.Properties.of(Material.HEAVY_METAL).noOcclusion().strength(3.8F).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> BlockCopperOre = register("copper_ore", () -> new BlockCopperOre(AbstractBlock.Properties.of(Material.METAL).harvestLevel(0).harvestTool(ToolType.PICKAXE).strength(3.0F).requiresCorrectToolForDrops()));
-
+    public static final RegistryObject<Block> BlockCasseriteOre = register("casserite_ore", () -> new BlockCasseriteOre(AbstractBlock.Properties.of(Material.METAL).harvestLevel(1).harvestTool(ToolType.PICKAXE).strength(3.0F).requiresCorrectToolForDrops()));
 
 
     public static final BlockEnergyCable ENERGY_CABLE = new BlockEnergyCable();

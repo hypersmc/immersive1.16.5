@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 
 public class CrusherRecipeNew extends SingleItemRecipe {
     private final Ingredient input;
+    private final ItemStack output;
     public static final IRecipeType<CrusherRecipeNew> RECIPE_TYPE = new IRecipeType<CrusherRecipeNew>() {
         @Override
         public String toString() {
@@ -31,6 +32,7 @@ public class CrusherRecipeNew extends SingleItemRecipe {
     public CrusherRecipeNew(ResourceLocation resourceLocation, Ingredient input, ItemStack output) {
         super(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE, RecipeRegistry.Crusher.get(), resourceLocation, "", input, output);
         this.input = input;
+        this.output = output;
     }
 
     @Override
@@ -46,10 +48,7 @@ public class CrusherRecipeNew extends SingleItemRecipe {
         return this.ingredient.test(inv.getItem(0));
     }
 
-    @Override
-    public ItemStack assemble(IInventory p_77572_1_) {
-        return super.assemble(p_77572_1_);
-    }
+
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrusherRecipeNew> {
 

@@ -6,6 +6,7 @@ import com.jumpwatch.tit.Items.item.ItemCrushedCopper;
 import com.jumpwatch.tit.Items.item.ItemIronPlate;
 import com.jumpwatch.tit.Items.ItemVoltmeter;
 import com.jumpwatch.tit.Items.ItemWrench;
+import com.jumpwatch.tit.Items.item.ItemRawCasserite;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -28,6 +29,7 @@ public class ItemRegistry {
     public static final ItemVoltmeter VOLTMETER = new ItemVoltmeter();
     public static final ItemIronPlate ITEM_IRON_PLATE = new ItemIronPlate();
     public static final ItemCrushedCopper ItemCrushedCopper = new ItemCrushedCopper();
+    public static final ItemRawCasserite ItemRawCasserite = new ItemRawCasserite();
     public static final ItemSolarCell ItemSolarCell = new ItemSolarCell();
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
@@ -35,7 +37,8 @@ public class ItemRegistry {
                 VOLTMETER,
                 ITEM_IRON_PLATE,
                 ItemCrushedCopper,
-                ItemSolarCell
+                ItemSolarCell,
+                ItemRawCasserite
         );
     }
 

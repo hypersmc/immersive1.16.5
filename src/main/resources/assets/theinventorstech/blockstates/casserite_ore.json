@@ -1,0 +1,6 @@
+{
+  "model": "theinventorstech:block/casserite_ore.json",
+  "variants": {
+        "":    { "model": "theinventorstech:block/casserite_ore" }
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "down": "theinventorstech:block/casserite_ore",
+    "up": "theinventorstech:block/casserite_ore",
+    "north": "theinventorstech:block/casserite_ore",
+    "south": "theinventorstech:block/casserite_ore",
+    "east": "theinventorstech:block/casserite_ore",
+    "west": "theinventorstech:block/casserite_ore",
+    "particle": "theinventorstech:block/casserite_ore"
+  }
+}

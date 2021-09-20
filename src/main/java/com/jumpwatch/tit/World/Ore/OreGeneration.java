@@ -18,6 +18,7 @@ public class OreGeneration {
     public static void generateOres(final BiomeLoadingEvent event) {
         if (!(event.getCategory().equals(Biome.Category.NETHER) || event.getCategory().equals(Biome.Category.THEEND))) {
             generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockRegistry.BlockCopperOre.get().defaultBlockState(), 5, 15, 30, 10);
+            generateOre(event.getGeneration(), OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockRegistry.BlockCasseriteOre.get().defaultBlockState(), 2, 7, 20, 10);
         }
     }
     private static void generateOre(BiomeGenerationSettingsBuilder settings, RuleTest fillerType, BlockState state,

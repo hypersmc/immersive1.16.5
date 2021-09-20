@@ -5,6 +5,7 @@ import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.crafting.recipe.CrusherRecipeNew;
 import net.minecraft.block.BlockState;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -17,6 +18,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.apache.logging.log4j.LogManager;
@@ -33,15 +35,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, ITickableTileEntity {
-    private static final Logger LOGGER = LogManager.getLogger();
 
+    private static final Logger LOGGER = LogManager.getLogger();
     private CustomEnergyStorage energyStorage = createEnergy();
     private ItemStackHandler itemHandler = createHandler();
-    private NonNullList<ItemStack> items;
-
     public boolean isrunning = false;
     public int forevery = 78;
     public static int cookTime;
+
     @Override
     public void tick() {
         ItemStack inSlot = itemHandler.getStackInSlot(0);
@@ -125,8 +126,8 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
             LOGGER.info("slot empty!"); //this is checking
             return null;
         }
-        LOGGER.info(level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), level));
-        return level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), level).orElse(null);
+        LOGGER.info(this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(this.itemHandler), this.level).toString());
+        return this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), this.level).orElse(null);
     }
     private ItemStack getWorkOutput(@Nullable CrusherRecipeNew recipe) {
 
