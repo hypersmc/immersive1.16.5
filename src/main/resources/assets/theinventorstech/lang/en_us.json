@@ -9,10 +9,13 @@
     "block.theinventorstech.electronicassembler": "Electronic Assembler",
     "block.theinventorstech.casserite_ore": "Cassiterite Ore",
     "block.theinventorstech.macerator": "Crusher",
+    "block.theinventorstech.rutile_ore": "Rutile Ore",
     "item.theinventorstech.wrench": "Wrench",
     "item.theinventorstech.voltmeter": "Voltmeter",
     "item.theinventorstech.itemironplate": "Iron Plate",
     "item.theinventorstech.itemcrushedcopper": "Crushed Copper",
+    "item.theinventorstech.itemrawcasserite": "Raw Cassiterite",
+    "item.theinventorstech.itemrawrutile": "Raw Rutile",
     "category.theinventorstech.crusher_recipe": "Crusher ",
     "itemGroup.TITBlocks": "The Inventor's Tech"
 }

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "down": "theinventorstech:block/rutile_ore",
+    "up": "theinventorstech:block/rutile_ore",
+    "north": "theinventorstech:block/rutile_ore",
+    "south": "theinventorstech:block/rutile_ore",
+    "east": "theinventorstech:block/rutile_ore",
+    "west": "theinventorstech:block/rutile_ore",
+    "particle": "theinventorstech:block/rutile_ore"
+  }
+}

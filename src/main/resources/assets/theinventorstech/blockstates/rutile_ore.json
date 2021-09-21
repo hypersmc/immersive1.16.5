@@ -1,0 +1,6 @@
+{
+  "model": "theinventorstech:block/rutile_ore.json",
+  "variants": {
+    "":    { "model": "theinventorstech:block/rutile_ore" }
+  }
+}
