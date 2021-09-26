@@ -45,17 +45,15 @@ public class theinventorstech
         FMLJavaModLoadingContext.get().getModEventBus().addListener(TagProviders::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetups);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, OreGeneration::generateOres);
-
         MinecraftForge.EVENT_BUS.register(this);
-
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(theinventorstech.this::clientSetup);
         });
-
     }
 
     public void commonSetups(FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(new BlockEvents());
+        theinventorsregistry.init(event);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -73,7 +71,5 @@ public class theinventorstech
         AssemblerRecipes.AssemblerRecipes();
         LOGGER.info("Registered Macerator recipes.");
     }
-
-
 
 }

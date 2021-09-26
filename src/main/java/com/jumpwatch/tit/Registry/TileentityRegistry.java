@@ -58,4 +58,5 @@ public class TileentityRegistry {
         ClientRegistry.bindTileEntityRenderer(ENERGY_CABLE, EnergyCableRenderer::new);
     }
 
+
 }

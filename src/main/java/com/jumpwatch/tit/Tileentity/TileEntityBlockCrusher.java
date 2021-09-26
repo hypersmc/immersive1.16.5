@@ -47,7 +47,7 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
     public void tick() {
         ItemStack inSlot = itemHandler.getStackInSlot(0);
         if (this.energyStorage.getEnergyStored() < forevery){
-            LOGGER.info("something did not pass!");
+//            LOGGER.info("something did not pass!");
             isrunning = false;
             return;
         }

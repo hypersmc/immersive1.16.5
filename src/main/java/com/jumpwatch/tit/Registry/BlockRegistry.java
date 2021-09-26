@@ -67,4 +67,9 @@ public class BlockRegistry {
         );
     }
 
+    public static final class Multiblocks
+    {
+        public static Block miner;
+    }
+
 }

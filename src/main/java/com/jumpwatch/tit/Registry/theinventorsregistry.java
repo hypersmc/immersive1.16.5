@@ -1,5 +1,5 @@
 package com.jumpwatch.tit.Registry;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
+import com.jumpwatch.tit.Multiblockhandeling.MultiblockHandler;
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -45,10 +47,16 @@ public class theinventorsregistry {
         TileentityRegistry.register();
         RecipeRegistry.register();
         ContainerRegistryTypes.register();
+        ITMultiblocks.init();
 
     }
 
     private static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {
         return DeferredRegister.create(registry, theinventorstech.MOD_ID);
+    }
+
+    public static void init(ParallelDispatchEvent ev) {
+        LOGGER.info("Registering Multiblocks");
+        MultiblockHandler.registerMultiblock(ITMultiblocks.MINER);
     }
 }

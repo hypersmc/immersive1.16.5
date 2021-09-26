@@ -36,28 +36,28 @@ public class TileEntitySolar_Panel_T1 extends TileEntity implements ITickableTil
     }
     @Override
     public void tick() {
-        BlockPos pos = this.getBlockPos();
-        if (!this.level.isClientSide) {
-            if (level.getGameTime() % 20 == 0) {
-                solarBuilt = checkSolarStructure();
-                if (!alreadyUpdated) {
-                    solarBuilt = checkSolarStructure();
-                    alreadyUpdated = true;
-                }
-                if (canProducePower = (level.canSeeSky(pos.above()) && level.isDay()) && ((!level.isRaining() && !level.isThundering()) || level.getBiome(pos).getPrecipitation().equals("RainType.RAIN")));
-                else
-                    canProducePower = false;
-            }
-            if (alreadyUpdated) {
-                if (canProducePower) {
-                    if (this.energy >= capacity) {
-                        this.energy = capacity;
-                    }else {
-                        this.energy += powergeneration;
-                    }
-                }
-            }
-        }
+//        BlockPos pos = this.getBlockPos();
+//        if (!this.level.isClientSide) {
+//            if (level.getGameTime() % 20 == 0) {
+//                solarBuilt = checkSolarStructure();
+//                if (!alreadyUpdated) {
+//                    solarBuilt = checkSolarStructure();
+//                    alreadyUpdated = true;
+//                }
+//                if (canProducePower = (level.canSeeSky(pos.above()) && level.isDay()) && ((!level.isRaining() && !level.isThundering()) || level.getBiome(pos).getPrecipitation().equals("RainType.RAIN")));
+//                else
+//                    canProducePower = false;
+//            }
+//            if (alreadyUpdated) {
+//                if (canProducePower) {
+//                    if (this.energy >= capacity) {
+//                        this.energy = capacity;
+//                    }else {
+//                  l      this.energy += powergeneration;
+//                    }
+//                }
+//            }
+//        }
     }
 
 
