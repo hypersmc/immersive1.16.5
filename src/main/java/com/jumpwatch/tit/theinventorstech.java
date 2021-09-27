@@ -1,5 +1,7 @@
 package com.jumpwatch.tit;
 
+import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockController;
+import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockTile;
 import com.jumpwatch.tit.Registry.*;
 import com.jumpwatch.tit.Render.MaceratorTileRenderer;
 
@@ -13,10 +15,14 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -29,11 +35,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+
 @Mod("theinventorstech")
 public class theinventorstech
 {
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "theinventorstech";
+    private static long tick = 0;
+
     public theinventorstech() {
         LOGGER.info("Starting Registry");
         GeckoLib.initialize();
@@ -70,6 +82,99 @@ public class theinventorstech
         CrusherRecipes.CrusherRecipes();
         AssemblerRecipes.AssemblerRecipes();
         LOGGER.info("Registered Macerator recipes.");
+    }
+
+
+    private static final HashMap<ServerWorld, ArrayList<MultiblockController<?, ?, ?>>> controllersToTick = new HashMap<>();
+    private static final HashMap<ServerWorld, ArrayList<MultiblockTile<?, ?, ?>>> tilesToAttach = new HashMap<>();
+    private static final ArrayList<MultiblockController<?, ?, ?>> newControllers = new ArrayList<>();
+    private static final ArrayList<MultiblockController<?, ?, ?>> oldControllers = new ArrayList<>();
+    private static final ArrayList<MultiblockTile<?, ?, ?>> newTiles = new ArrayList<>();
+    public static void addController(MultiblockController<?, ?, ?> controller) {
+        newControllers.add(controller);
+    }
+
+    public static void removeController(MultiblockController<?, ?, ?> controller) {
+        oldControllers.add(controller);
+    }
+
+    public static void attachTile(MultiblockTile<?, ?, ?> tile) {
+        newTiles.add(tile);
+    }
+    @SubscribeEvent
+    void onWorldUnload(final WorldEvent.Unload worldUnloadEvent) {
+        if (!worldUnloadEvent.getWorld().isClientSide()) {
+            ArrayList<MultiblockController<?, ?, ?>> controllersToTick = theinventorstech.controllersToTick.remove(worldUnloadEvent.getWorld());
+            if (controllersToTick != null) {
+                for (MultiblockController<?, ?, ?> multiblockController : controllersToTick) {
+                    multiblockController.suicide();
+                }
+            }
+            tilesToAttach.remove(worldUnloadEvent.getWorld());
+            newControllers.removeIf(multiblockController -> multiblockController.getWorld() == worldUnloadEvent.getWorld());
+            oldControllers.removeIf(multiblockController -> multiblockController.getWorld() == worldUnloadEvent.getWorld());
+            newTiles.removeIf(multiblockTile -> multiblockTile.getLevel() == worldUnloadEvent.getWorld());
+        }
+    }
+    @SubscribeEvent
+    public void advanceTick(TickEvent.ServerTickEvent e) {
+        if (!e.side.isServer()) {
+            return;
+        }
+        if (e.phase != TickEvent.Phase.END) {
+            return;
+        }
+        tick++;
+
+
+
+        for (MultiblockController<?, ?, ?> newController : newControllers) {
+            controllersToTick.computeIfAbsent((ServerWorld) newController.getWorld(), k -> new ArrayList<>()).add(newController);
+        }
+        newControllers.clear();
+        for (MultiblockController<?, ?, ?> oldController : oldControllers) {
+            //noinspection SuspiciousMethodCalls
+            ArrayList<MultiblockController<?, ?, ?>> controllers = controllersToTick.get(oldController.getWorld());
+            controllers.remove(oldController);
+        }
+        oldControllers.clear();
+        for (MultiblockTile<?, ?, ?> newTile : newTiles) {
+            tilesToAttach.computeIfAbsent((ServerWorld) newTile.getLevel(), k -> new ArrayList<>()).add(newTile);
+        }
+        newTiles.clear();
+    }
+    public static long tickNumber() {
+        return tick;
+    }
+    @SubscribeEvent
+    public void tickWorld(TickEvent.WorldTickEvent e) {
+        if (!(e.world instanceof ServerWorld)) {
+            return;
+        }
+        if (e.phase != TickEvent.Phase.END) {
+            return;
+        }
+
+        ArrayList<MultiblockController<?, ?, ?>> controllersToTick = theinventorstech.controllersToTick.get(e.world);
+        if (controllersToTick != null) {
+            for (MultiblockController<?, ?, ?> controller : controllersToTick) {
+                if (controller != null) {
+                    controller.update();
+                }
+            }
+        }
+
+        ArrayList<MultiblockTile<?, ?, ?>> tilesToAttach = theinventorstech.tilesToAttach.get(e.world);
+        if (tilesToAttach != null) {
+            tilesToAttach.sort(Comparator.comparing(TileEntity::getBlockPos));
+            for (MultiblockTile<?, ?, ?> toAttach : tilesToAttach) {
+                if (toAttach != null) {
+                    toAttach.attachToNeighbors();
+                }
+            }
+            tilesToAttach.clear();
+        }
+
     }
 
 }

@@ -1,5 +1,4 @@
 package com.jumpwatch.tit.Registry;
-import com.jumpwatch.tit.Multiblockhandeling.MultiblockHandler;
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
@@ -9,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -57,6 +55,6 @@ public class theinventorsregistry {
 
     public static void init(ParallelDispatchEvent ev) {
         LOGGER.info("Registering Multiblocks");
-        MultiblockHandler.registerMultiblock(ITMultiblocks.MINER);
+
     }
 }
