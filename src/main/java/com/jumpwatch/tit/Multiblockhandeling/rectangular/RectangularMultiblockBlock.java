@@ -26,8 +26,8 @@ public abstract class RectangularMultiblockBlock<ControllerType extends Rectangu
     }
 
     @Override
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         if (usesAxisPositions()) {
             builder.add(X_AXIS_POSITION);
             builder.add(Y_AXIS_POSITION);
@@ -37,6 +37,7 @@ public abstract class RectangularMultiblockBlock<ControllerType extends Rectangu
             builder.add(BlockStates.FACING);
         }
     }
+
 
     public boolean usesAxisPositions() {
         return false;

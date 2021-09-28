@@ -15,11 +15,17 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileEntitiyBlockElectronicAssembler extends TileEntity implements /*IAnimatable,*/ ITickableTileEntity {
+public class TileEntitiyBlockElectronicAssembler extends TileEntity implements IAnimatable, ITickableTileEntity {
     private ItemStackHandler itemHandler = createHandler();
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
     public TileEntitiyBlockElectronicAssembler() {
@@ -30,12 +36,15 @@ public class TileEntitiyBlockElectronicAssembler extends TileEntity implements /
 
     @Override
     public void tick() {
-        if (canProcess()) processTick();
+        if(itemHandler.getStackInSlot(0).isEmpty() && itemHandler.getStackInSlot(1).isEmpty() && itemHandler.getStackInSlot(2).isEmpty() && itemHandler.getStackInSlot(3).isEmpty() && itemHandler.getStackInSlot(4).isEmpty() && itemHandler.getStackInSlot(5).isEmpty() && itemHandler.getStackInSlot(6).isEmpty() && itemHandler.getStackInSlot(7).isEmpty() && itemHandler.getStackInSlot(8).isEmpty()) isrunning = false;
+        if (canProcess()) {
+            processTick();
+        }
     }
 
     public boolean canProcess(){
         // No input
-        if(itemHandler.getStackInSlot(0).isEmpty()){
+        if(itemHandler.getStackInSlot(0).isEmpty() && itemHandler.getStackInSlot(1).isEmpty() && itemHandler.getStackInSlot(2).isEmpty() && itemHandler.getStackInSlot(3).isEmpty() && itemHandler.getStackInSlot(4).isEmpty() && itemHandler.getStackInSlot(5).isEmpty() && itemHandler.getStackInSlot(6).isEmpty() && itemHandler.getStackInSlot(7).isEmpty() && itemHandler.getStackInSlot(8).isEmpty()){
             isrunning = false;
             //Make the progress bar go down if slot is empty and there was progress.
             if (!(cookTime == 0)) {
@@ -122,5 +131,25 @@ public class TileEntitiyBlockElectronicAssembler extends TileEntity implements /
                 return super.insertItem(slot, stack, simulate);
             }
         };
+    }
+    private final AnimationFactory factory = new AnimationFactory(this);
+    @Override
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+    }
+    private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        event.getController().transitionLengthTicks = 0;
+        if (this.isrunning){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("on", true));
+        }else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("off", true));
+
+        }
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
     }
 }

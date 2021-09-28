@@ -66,7 +66,8 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
         return super.use(state, worldIn, pos, player, handIn, hit);
     }
 
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+    @Override
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         if(usesAssemblyState()) {
             builder.add(ASSEMBLED);
@@ -80,7 +81,6 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
             builder.add(WEST_CONNECTED_PROPERTY);
         }
     }
-
 
     @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull Block blockIn, @Nonnull BlockPos fromPos, boolean isMoving) {

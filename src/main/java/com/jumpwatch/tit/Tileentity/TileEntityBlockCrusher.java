@@ -126,6 +126,7 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
             LOGGER.info("slot empty!"); //this is checking
             return null;
         }
+        LOGGER.info(this.level.getRecipeManager().getRecipes());
         LOGGER.info(this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(this.itemHandler), this.level).toString());
         return this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), this.level).orElse(null);
     }
