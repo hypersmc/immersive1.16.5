@@ -75,6 +75,7 @@ public class theinventorstech
         ScreenManager.register(ContainerRegistry.assembler_container.get(), assemblerBlockScreen::new);
         RenderTypeLookup.setRenderLayer(BlockRegistry.ENERGY_CABLE.getBlock(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(BlockRegistry.ITEM_CABLE.getBlock(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(BlockRegistry.BlockMinerMultiblock.get(), RenderType.cutout());
         // geckolib Registry
         RenderRegistry.renderRegistry();
         //Other registry stuff.

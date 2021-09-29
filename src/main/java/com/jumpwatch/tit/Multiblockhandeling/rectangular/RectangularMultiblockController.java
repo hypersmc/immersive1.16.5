@@ -26,6 +26,7 @@ public class RectangularMultiblockController<ControllerType extends RectangularM
     protected final Vector3i minSize = new Vector3i();
     protected final Vector3i maxSize = new Vector3i();
 
+
     protected Validator<Block> cornerValidator = null;
     protected Validator<Block> frameValidator = null;
     protected Validator<Block> exteriorValidator = null;

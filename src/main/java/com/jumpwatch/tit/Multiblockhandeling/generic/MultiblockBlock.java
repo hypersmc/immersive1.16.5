@@ -2,8 +2,10 @@ package com.jumpwatch.tit.Multiblockhandeling.generic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -18,7 +20,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import static com.jumpwatch.tit.Multiblockhandeling.generic.ConnectedTextureStates.*;
-public class MultiblockBlock<ControllerType extends MultiblockController<ControllerType, TileType, BlockType>, TileType extends MultiblockTile<ControllerType, TileType, BlockType>, BlockType extends MultiblockBlock<ControllerType, TileType, BlockType>> extends Block {
+public class MultiblockBlock<ControllerType extends MultiblockController<ControllerType, TileType, BlockType>, TileType extends MultiblockTile<ControllerType, TileType, BlockType>, BlockType extends MultiblockBlock<ControllerType, TileType, BlockType>> extends DirectionalBlock {
 
     public static final BooleanProperty ASSEMBLED = BooleanProperty.create("assembled");
 
@@ -68,9 +70,10 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
 
     @Override
     protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+        builder.add(FACING);
         if(usesAssemblyState()) {
             builder.add(ASSEMBLED);
+
         }
         if (connectedTexture()) {
             builder.add(TOP_CONNECTED_PROPERTY);
@@ -79,6 +82,7 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
             builder.add(SOUTH_CONNECTED_PROPERTY);
             builder.add(EAST_CONNECTED_PROPERTY);
             builder.add(WEST_CONNECTED_PROPERTY);
+
         }
     }
 
@@ -107,6 +111,13 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
         state = state.setValue(EAST_CONNECTED_PROPERTY, connectToBlock(worldIn.getBlockState(pos.relative(Direction.EAST)).getBlock()));
         state = state.setValue(WEST_CONNECTED_PROPERTY, connectToBlock(worldIn.getBlockState(pos.relative(Direction.WEST)).getBlock()));
         worldIn.setBlock(pos, state, 2);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     protected boolean connectToBlock(Block block){
