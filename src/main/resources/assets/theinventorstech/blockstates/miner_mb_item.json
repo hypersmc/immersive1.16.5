@@ -1,0 +1,120 @@
+
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "theinventorstech:block/invisible" }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "north"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "east"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "y": 90, "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "south"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "y": 180, "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "west"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "y": 270, "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "up"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "x": 270, "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "false"
+      },
+      "when": {
+        "facing": "down"
+      },
+      "apply": { "model": "theinventorstech:block/miner_mb_item", "x": 90, "uvlock": false }
+    },
+
+
+
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "north"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "east"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "south"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "west"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "up"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    },
+    {
+      "when": {
+        "assembled": "true"
+      },
+      "when": {
+        "facing": "down"
+      },
+      "apply": { "model": "theinventorstech:block/invisible", "uvlock": false }
+    }
+  ]
+}

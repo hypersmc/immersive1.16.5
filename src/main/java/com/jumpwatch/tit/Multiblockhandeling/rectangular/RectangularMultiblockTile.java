@@ -18,7 +18,7 @@ public abstract class RectangularMultiblockTile<ControllerType extends Rectangul
 
     @Override
     public BlockState assembledBlockState() {
-        BlockState state = assembledBlockState();
+        BlockState state = super.assembledBlockState();
         @SuppressWarnings("unchecked") BlockType block = (BlockType) getBlockState().getBlock();
         if (block.usesAxisPositions()) {
             BlockPos pos = getBlockPos();

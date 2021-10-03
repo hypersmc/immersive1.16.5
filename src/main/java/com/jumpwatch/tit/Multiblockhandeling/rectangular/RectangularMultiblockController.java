@@ -88,7 +88,7 @@ public class RectangularMultiblockController<ControllerType extends RectangularM
             break;
         }
         // dimension check failed in all orientations
-        if (dimensions == null) {
+        if (world == null) {
             // TODO: 6/29/20 dimensions error
             throw new ValidationError(new TranslationTextComponent("multiblock.error.theinventorstech.dimensions",
                     allowedOrientations[0].x, allowedOrientations[0].y, allowedOrientations[0].z,

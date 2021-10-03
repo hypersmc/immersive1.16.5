@@ -7,110 +7,112 @@
     },
     {
       "when": {
-        "facing": "north"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "north"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "uvlock": false }
     },
     {
       "when": {
-        "facing": "east"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "east"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "y": 90, "uvlock": false }
     },
     {
       "when": {
-        "facing": "south"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "south"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "y": 180, "uvlock": false }
     },
     {
       "when": {
-        "facing": "west"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "west"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "y": 270, "uvlock": false }
     },
     {
       "when": {
-        "facing": "up"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "up"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "x": 270, "uvlock": false }
     },
     {
       "when": {
-        "facing": "down"
+        "assembled": "false"
       },
       "when": {
-        "assembled": "false"
+        "facing": "down"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacnotassembled", "x": 90, "uvlock": false }
     },
 
+
+
     {
       "when": {
-        "facing": "north"
+        "assembled": "true"
       },
       "when": {
-        "assembled": "true"
+        "facing": "north"
       },
         "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "uvlock": false }
     },
     {
       "when": {
-        "facing": "east"
-    },
-      "when": {
         "assembled": "true"
       },
+      "when": {
+        "facing": "east"
+    },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "y": 90, "uvlock": false }
     },
     {
       "when": {
-      "facing": "south"
-    },
-      "when": {
         "assembled": "true"
       },
+      "when": {
+      "facing": "south"
+    },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "y": 180, "uvlock": false }
     },
     {
       "when": {
-        "facing": "west"
+        "assembled": "true"
       },
       "when": {
-        "assembled": "true"
+        "facing": "west"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "y": 270, "uvlock": false }
     },
     {
       "when": {
-        "facing": "up"
+        "assembled": "true"
       },
       "when": {
-        "assembled": "true"
+        "facing": "up"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "x": 270, "uvlock": false }
     },
     {
       "when": {
-        "facing": "down"
+        "assembled": "true"
       },
       "when": {
-        "assembled": "true"
+        "facing": "down"
       },
       "apply": { "model": "theinventorstech:block/deepcoredrillinterfacassembled", "x": 90, "uvlock": false }
     }

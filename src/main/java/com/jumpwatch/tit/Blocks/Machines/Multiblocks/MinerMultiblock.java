@@ -1,7 +1,6 @@
 package com.jumpwatch.tit.Blocks.Machines.Multiblocks;
 
 import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockBlock;
-import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockController;
 
 import javax.annotation.Nonnull;
 

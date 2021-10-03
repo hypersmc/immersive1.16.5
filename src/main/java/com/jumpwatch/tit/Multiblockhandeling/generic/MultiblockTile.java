@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -13,6 +14,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
@@ -169,6 +171,7 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
 
     @Nonnull
     public ActionResultType onBlockActivated(@Nonnull PlayerEntity player, @Nonnull Hand handIn) {
+
         if (handIn == Hand.MAIN_HAND) {
             if (player.getMainHandItem() == ItemStack.EMPTY && (!((MultiblockBlock) getBlockState().getBlock()).usesAssemblyState() || !getBlockState().getValue(ASSEMBLED))) {
                 if (controller != null && controller.assemblyState() != MultiblockController.AssemblyState.ASSEMBLED) {
@@ -181,17 +184,17 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
                 }
                 return ActionResultType.SUCCESS;
 
-//            } else if (player.getMainHandItem().getItem() == DebugTool.INSTANCE) {
-//                // no its not getting translated, its debug info, *english*
-//                if (controller != null) {
-//                    player.sendMessage(new StringTextComponent(getDebugInfo()), Util.NIL_UUID);
-//                } else if (!level.isClientSide) {
-//                    player.sendMessage(new StringTextComponent("null controller on server"), Util.NIL_UUID);
-//                }
-//                return ActionResultType.SUCCESS;
-//
-//            }
+            } else if (player.getMainHandItem().getItem() == Items.STICK) {
+                // no its not getting translated, its debug info, *english*
+                if (controller != null) {
+                    player.sendMessage(new StringTextComponent(getDebugInfo()), Util.NIL_UUID);
+                } else if (!level.isClientSide) {
+                    player.sendMessage(new StringTextComponent("null controller on server"), Util.NIL_UUID);
+                }
+                return ActionResultType.SUCCESS;
+
             }
+
             }
             return ActionResultType.PASS;
         }

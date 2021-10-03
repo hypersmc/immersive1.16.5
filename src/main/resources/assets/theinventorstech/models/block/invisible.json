@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "down": "theinventorstech:block/transparent",
+    "up": "theinventorstech:block/transparent",
+    "north": "theinventorstech:block/transparent",
+    "south": "theinventorstech:block/transparent",
+    "east": "theinventorstech:block/transparent",
+    "west": "theinventorstech:block/transparent",
+    "particle": "theinventorstech:block/transparent"
+  }
+}
