@@ -155,13 +155,12 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
 
     @Override
     public CompoundNBT save(@Nonnull CompoundNBT compound) {
-        super.save(compound);
         if (isSaveDelegate && controller != null && controller.blocks.containsTile(self())) {
             compound.put("controllerData", controller.getNBT());
         }
         compound.put("userdata", writeNBT());
         compound.putBoolean("isSaveDelegate", isSaveDelegate);
-        return compound;
+        return super.save(compound);
     }
 
 

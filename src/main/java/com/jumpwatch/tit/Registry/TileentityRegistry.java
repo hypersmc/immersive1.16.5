@@ -1,5 +1,6 @@
 package com.jumpwatch.tit.Registry;
 
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.*;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
@@ -35,6 +36,17 @@ public class TileentityRegistry {
     public static final RegistryObject<TileEntityType<TileEntitySolar_Panel_T1>> Solar_Panel_T1 = register("solar_panel_t1", TileEntitySolar_Panel_T1::new, BlockRegistry.Solar_Panel_T1);
     public static final RegistryObject<TileEntityType<TileEntityBlockCrusher>> Block_Crusher = register("macerator", TileEntityBlockCrusher::new, BlockRegistry.Macerator);
     public static final RegistryObject<TileEntityType<TileEntitiyBlockElectronicAssembler>> Block_electronicassembler = register("electronicassembler", TileEntitiyBlockElectronicAssembler::new, BlockRegistry.ElectronicAssembler);
+
+    /**
+     * Multiblock tiles
+     **/
+    public static final RegistryObject<TileEntityType<MinerControllerTile>> Miner_controller_tile = register("miner_mb_controller", MinerControllerTile::new, BlockRegistry.BlockMinerMBController);
+    public static final RegistryObject<TileEntityType<MinerScaffoldingTile>> Miner_scaffolding_tile = register("miner_mb_scaffolding", MinerScaffoldingTile::new, BlockRegistry.BlockMinerMBScaffoldingBlock);
+    public static final RegistryObject<TileEntityType<MinerOutputTile>> Miner_item_tile = register("miner_mb_item", MinerOutputTile::new, BlockRegistry.BlockMinerMBItemBlock);
+    public static final RegistryObject<TileEntityType<MinerPowerTile>> Miner_power_tile = register("miner_mb_power", MinerPowerTile::new, BlockRegistry.BlockMinerMBPowerBlock);
+    public static final RegistryObject<TileEntityType<MinerDrillCoreTile>> Miner_drillcore_tile = register("miner_mb_drillcore", MinerDrillCoreTile::new, BlockRegistry.BlockMinerMBDrillCore);
+    public static final RegistryObject<TileEntityType<MinerDrillDrillTile>> Miner_drilldrill_tile = register("miner_mb_drilldrill", MinerDrillDrillTile::new, BlockRegistry.BlockMinerMBDrillDrill);
+
     public static TileEntityType<TileEntityEnergyCable> ENERGY_CABLE;
     public static TileEntityType<TileEntityItemCable> ITEM_CABLE;
     public static TileEntityType<TileEntityFluidCable> FLUID_CABLE;
