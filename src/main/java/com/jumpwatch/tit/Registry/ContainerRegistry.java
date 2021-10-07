@@ -1,5 +1,6 @@
 package com.jumpwatch.tit.Registry;
 
+import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.Containers.assemblerBlockContainer;
 import com.jumpwatch.tit.Containers.maceratorBlockContainer;
 import com.jumpwatch.tit.theinventorstech;
@@ -27,5 +28,10 @@ public class ContainerRegistry {
         BlockPos pos = data.readBlockPos();
         World world = inv.player.getCommandSenderWorld();
         return new maceratorBlockContainer(windowId, world, pos, inv, inv.player);
+    })));
+    public static final RegistryObject<ContainerType<MinerMBControllerBlockContainer>> minermbcontrollerblock_container = CONTAINERS.register("minermbcontroller", () -> IForgeContainerType.create(((windowId, inv, data) -> {
+        BlockPos pos = data.readBlockPos();
+        World world = inv.player.getCommandSenderWorld();
+        return new MinerMBControllerBlockContainer(windowId, world, pos, inv, inv.player);
     })));
 }

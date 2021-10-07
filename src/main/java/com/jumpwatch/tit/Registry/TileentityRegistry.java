@@ -1,6 +1,7 @@
 package com.jumpwatch.tit.Registry;
 
 import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.*;
+import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockTile;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;
@@ -40,6 +41,7 @@ public class TileentityRegistry {
     /**
      * Multiblock tiles
      **/
+
     public static final RegistryObject<TileEntityType<MinerControllerTile>> Miner_controller_tile = register("miner_mb_controller", MinerControllerTile::new, BlockRegistry.BlockMinerMBController);
     public static final RegistryObject<TileEntityType<MinerScaffoldingTile>> Miner_scaffolding_tile = register("miner_mb_scaffolding", MinerScaffoldingTile::new, BlockRegistry.BlockMinerMBScaffoldingBlock);
     public static final RegistryObject<TileEntityType<MinerOutputTile>> Miner_item_tile = register("miner_mb_item", MinerOutputTile::new, BlockRegistry.BlockMinerMBItemBlock);

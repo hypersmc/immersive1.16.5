@@ -6,24 +6,19 @@ import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-
-import javax.annotation.Nullable;
 
 public class maceratorBlockContainer extends Container {
     private TileEntity tileEntity;

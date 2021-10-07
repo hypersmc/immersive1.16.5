@@ -4,6 +4,7 @@ import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnAssemblyTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnDisassemblyTile;
 import com.jumpwatch.tit.Utils.BlockStates;
+import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntityType;
@@ -19,8 +20,8 @@ import javax.annotation.Nullable;
 
 import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MinerPowerBlock.ConnectionState.*;
 
-public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile, IEnergyStorage {
-
+public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile {
+    private CustomEnergyStorage energyStorage = createEnergy();
     public static TileEntityType<?> TYPE;
     public static final TileSupplier SUPPLIER = MinerPowerTile::new;
     public int energy = 0;
@@ -51,34 +52,13 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
     LazyOptional<?> inputOptinal = LazyOptional.empty();
 
 
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return 256;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int getEnergyStored() {
-        return energy;
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return capacity;
-    }
-
-    @Override
-    public boolean canExtract() {
-        return false;
-    }
-
-    @Override
-    public boolean canReceive() {
-        return true;
+    private CustomEnergyStorage createEnergy() {
+        return new CustomEnergyStorage(capacity, 256) {
+            @Override
+            protected void onEnergyChanged() {
+                setChanged();
+            }
+        };
     }
 
 

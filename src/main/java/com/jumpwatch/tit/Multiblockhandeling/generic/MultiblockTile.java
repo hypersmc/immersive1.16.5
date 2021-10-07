@@ -81,6 +81,7 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
                             ((MultiblockTile<?, ?, ?>) possibleTile).attemptAttach = true;
                         }
                     }
+
                 }
             }
             if (controller == null) {
@@ -88,6 +89,7 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
             }
         }
     }
+
 
     public void validate() {
         validate();
@@ -140,8 +142,9 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
     CompoundNBT controllerData = null;
 
 
+
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+    public void load(BlockState state, CompoundNBT compound) {
         super.load(state, compound);
         if (compound.contains("controllerData")) {
             controllerData = compound.getCompound("controllerData");
@@ -154,7 +157,7 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
     }
 
     @Override
-    public CompoundNBT save(@Nonnull CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         if (isSaveDelegate && controller != null && controller.blocks.containsTile(self())) {
             compound.put("controllerData", controller.getNBT());
         }

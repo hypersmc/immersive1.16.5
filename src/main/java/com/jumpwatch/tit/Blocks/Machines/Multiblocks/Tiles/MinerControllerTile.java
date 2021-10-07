@@ -1,7 +1,9 @@
 package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles;
 
 import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
+import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockBlock;
+import com.jumpwatch.tit.Registry.ItemRegistry;
 import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -30,9 +32,9 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull PlayerEntity player, @Nonnull Hand handIn) {
-        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == Items.STICK) {
+        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == ItemRegistry.WRENCH) {
             if (controller != null) {
-                //controller.toggleActive();
+                controller.UpdateBlockStates();
             }
             return ActionResultType.SUCCESS;
         }
@@ -57,7 +59,10 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
 
     @Nullable
     @Override
-    public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
+    public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        if (level.getBlockState(getBlockPos()).getValue(MultiblockBlock.ASSEMBLED)) {
+            return new MinerMBControllerBlockContainer(i, level, worldPosition, playerInventory, playerEntity);
+        }
         return null;
     }
 }

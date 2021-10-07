@@ -5,6 +5,7 @@ import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockTile;
 import com.jumpwatch.tit.Registry.*;
 import com.jumpwatch.tit.Render.MaceratorTileRenderer;
 
+import com.jumpwatch.tit.Screen.MinerMBControllerBlockScreen;
 import com.jumpwatch.tit.Screen.assemblerBlockScreen;
 import com.jumpwatch.tit.Screen.maceratorBlockScreen;
 import com.jumpwatch.tit.World.Ore.OreGeneration;
@@ -73,6 +74,7 @@ public class theinventorstech
     public void clientSetup(final FMLClientSetupEvent event) {
         ScreenManager.register(ContainerRegistry.macerator_container.get(), maceratorBlockScreen::new);
         ScreenManager.register(ContainerRegistry.assembler_container.get(), assemblerBlockScreen::new);
+        ScreenManager.register(ContainerRegistry.minermbcontrollerblock_container.get(), MinerMBControllerBlockScreen::new);
         RenderTypeLookup.setRenderLayer(BlockRegistry.ENERGY_CABLE.getBlock(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(BlockRegistry.ITEM_CABLE.getBlock(), RenderType.cutout());
         //RenderTypeLookup.setRenderLayer(BlockRegistry.BlockMinerMBFrame.get(), RenderType.cutout());

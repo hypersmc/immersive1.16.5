@@ -32,7 +32,10 @@
     "multiblock.error.theinventorstech.no.controller": "Deepcoredrill require at least one controller.",
     "multiblock.error.theinventorstech.no.powerport": "Deepcoredrill require at least one power port.",
     "multiblock.error.theinventorstech.no.itemport": "Deepcoredrill require at least one item port.",
+    "multiblock.error.theinventorstech.no.drillcore": "Deepcoredrill require at least one core drill.",
+    "multiblock.error.theinventorstech.no.drilldrill": "Deepcoredrill require at least one drill.",
     "multiblock.error.theinventorstech.dimensions": "Dimensions not allowed \nActual: %d, %d, %d, \nMin allowed: %d, %d, %d, \nMax allowed: %d, %d, %d,",
+    "multiblock.error.theinventorstech.dangling_internal_part": "There appears to be another deepcoredrill inside this one, is something wrong? (%d, %d, %d).",
 
     "category.theinventorstech.crusher_recipe": "Crusher ",
     "itemGroup.TITBlocks": "The Inventor's Tech"
