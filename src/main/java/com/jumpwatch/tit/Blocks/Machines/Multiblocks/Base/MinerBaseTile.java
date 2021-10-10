@@ -33,6 +33,7 @@ public class MinerBaseTile extends RectangularMultiblockTile<MinerMBController, 
         return new CompoundNBT();
     }
 
+
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
     }

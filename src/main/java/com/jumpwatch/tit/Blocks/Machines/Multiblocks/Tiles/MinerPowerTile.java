@@ -7,6 +7,9 @@ import com.jumpwatch.tit.Utils.BlockStates;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.renderer.texture.ITickable;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,21 +23,24 @@ import javax.annotation.Nullable;
 
 import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MinerPowerBlock.ConnectionState.*;
 
-public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile {
+public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile, ITickable {
     private CustomEnergyStorage energyStorage = createEnergy();
+    private LazyOptional<IEnergyStorage> energys = LazyOptional.of(() -> energyStorage);
     public static TileEntityType<?> TYPE;
     public static final TileSupplier SUPPLIER = MinerPowerTile::new;
+    public static int energyST;
     public int energy = 0;
     public int capacity = 1200;
     public MinerPowerTile() {
         super(TYPE);
+
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityEnergy.ENERGY) {
-            return LazyOptional.of(() -> this).cast();
+            return energys.cast();
         }
         return super.getCapability(cap, side);
     }
@@ -49,11 +55,26 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
             level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(CONNECTION_STATE_ENUM_PROPERTY, connected ? CONNECTED : DISCONNECTED));
         }
     }
-    LazyOptional<?> inputOptinal = LazyOptional.empty();
+    public int getEnergy(){
+        return energyStorage.getEnergyStored();
+    }
 
+    @Override
+    public CompoundNBT save(CompoundNBT tag) {
+        tag.put("energy", energyStorage.serializeNBT());
+
+        return super.save(tag);
+    }
+
+    @Override
+    public void load(BlockState state, CompoundNBT tag) {
+        energyStorage.deserializeNBT(tag.getCompound("energy"));
+        super.load(state, tag);
+
+    }
 
     private CustomEnergyStorage createEnergy() {
-        return new CustomEnergyStorage(capacity, 256) {
+        return new CustomEnergyStorage(25000, 32) {
             @Override
             protected void onEnergyChanged() {
                 setChanged();
@@ -71,5 +92,15 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
     @Override
     public void onDisassembly() {
         powerOutputDirection = null;
+    }
+
+    @Override
+    public void tick() {
+        if (energyST < energyStorage.getMaxEnergyStored()) {
+            energyST += energyStorage.getEnergyStored();
+        }else if (energyST <= energyStorage.getMaxEnergyStored()) {
+            energyST = energyStorage.getEnergyStored();
+        }
+
     }
 }

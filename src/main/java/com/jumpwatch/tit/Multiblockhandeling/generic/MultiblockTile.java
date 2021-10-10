@@ -90,9 +90,9 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
         }
     }
 
-
-    public void validate() {
-        validate();
+    @Override
+    public void clearRemoved() {
+        super.clearRemoved();
         attemptAttach();
         if (level.isClientSide) {
             controllerData = null;
@@ -104,14 +104,16 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
         attemptAttach();
     }
 
-    public final void remove() {
+    @Override
+    public void setRemoved() {
         if (controller != null) {
             controller.detach(self());
         }
         allowAttach = false;
         onRemoved(false);
-        remove();
+        super.setRemoved();
     }
+
 
 
     @Override

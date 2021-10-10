@@ -1,5 +1,7 @@
 package com.jumpwatch.tit.Screen;
 
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.MinerMBController;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.MinerPowerTile;
 import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.theinventorstech;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -21,10 +23,13 @@ public class MinerMBControllerBlockScreen extends ContainerScreen<MinerMBControl
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
     }
-//    @Override
-//    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
-//        drawString(matrixStack, Minecraft.getInstance().font, "Energy: " + menu.getEnergy(), 10, 10, 0xffffff);
-//    }
+    @Override
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+
+        drawString(matrixStack, Minecraft.getInstance().font, "Energy: " + MinerMBController.Energy, 10, 10, 0xffffff);
+    }
+
+
 
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
@@ -34,4 +39,7 @@ public class MinerMBControllerBlockScreen extends ContainerScreen<MinerMBControl
         int relY = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
     }
+
+
+
 }

@@ -20,12 +20,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MinerMBController extends RectangularMultiblockController<MinerMBController, MinerBaseTile, MinerBaseBlock> {
+    public static int Energy;
     private static final Logger LOGGER = LogManager.getLogger();
     private final Set<MinerControllerTile> controller = new HashSet<>();
     private final Set<MinerDrillCoreTile> drillcore = new HashSet<>();
     private final Set<MinerDrillDrillTile> drilldrill = new HashSet<>();
     private final Set<MinerPowerTile> powerPorts = new HashSet<>();
     private final Set<MinerOutputTile> itemPort = new HashSet<>();
+    private final Set<MinerScaffoldingTile> scaffoldings = new HashSet<>();
 
     public MinerMBController(World world) {
         super(world, tile -> tile instanceof MinerBaseTile, block -> block instanceof MinerBaseBlock);
@@ -40,6 +42,9 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
         if (controller.isEmpty()){
             throw new ValidationError("multiblock.error.theinventorstech.no.controller");
         }
+        if (scaffoldings.isEmpty()) {
+            throw new ValidationError("multiblock.error.theinventorstech.no.scaffolding");
+        }
         if (powerPorts.isEmpty()){
             throw new ValidationError("multiblock.error.theinventorstech.no.powerport");
         }
@@ -52,6 +57,7 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
         if (drilldrill.isEmpty()){
             throw new ValidationError("multiblock.error.theinventorstech.no.drilldrill");
         }
+
         BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable();
         long tick = theinventorstech.tickNumber();
         Util.chunkCachedBlockStateIteration(minCoord(), maxCoord(), world, (block, pos) -> {
@@ -63,6 +69,13 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
             }
         });
         return true;
+    }
+
+    public int getrequest() {
+        for (MinerPowerTile powerTile : powerPorts) {
+            Energy = powerTile.getEnergy();
+        }
+        return Energy;
     }
 
 
@@ -95,6 +108,10 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
             drilldrill.add((MinerDrillDrillTile) tile);
             LOGGER.info("Found: " + tile);
         }
+        if (tile instanceof MinerScaffoldingTile) {
+            scaffoldings.add((MinerScaffoldingTile) tile);
+            LOGGER.info("Found: " + tile);
+        }
     }
 
     @Override
@@ -122,6 +139,10 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
         }
         if (tile instanceof MinerDrillCoreTile) {
             drillcore.remove((MinerDrillCoreTile) tile);
+            LOGGER.info("Removed: " + tile);
+        }
+        if (tile instanceof MinerScaffoldingTile) {
+            scaffoldings.remove((MinerScaffoldingTile) tile);
             LOGGER.info("Removed: " + tile);
         }
     }
