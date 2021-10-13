@@ -4,6 +4,7 @@ import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
 import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MineItemBlock;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnAssemblyTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnDisassemblyTile;
+import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.BlockStates;
 import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,7 +35,7 @@ public class MinerOutputTile extends MinerBaseTile implements INamedContainerPro
     public static final TileSupplier SUPPLIER = MinerOutputTile::new;
 
     public MinerOutputTile() {
-        super(TYPE);
+        super(TileentityRegistry.Miner_item_tile.get());
     }
     private MineItemBlock.PortDirection direction = INLET;
 

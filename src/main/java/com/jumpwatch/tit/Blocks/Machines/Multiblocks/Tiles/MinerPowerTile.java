@@ -3,6 +3,7 @@ package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles;
 import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnAssemblyTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnDisassemblyTile;
+import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.BlockStates;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.Utils.TileSupplier;
@@ -32,7 +33,7 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
     public int energy = 0;
     public int capacity = 1200;
     public MinerPowerTile() {
-        super(TYPE);
+        super(TileentityRegistry.Miner_power_tile.get());
 
     }
 
@@ -82,7 +83,15 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
         };
     }
 
+    @Override
+    public void setEnergyAmount(Integer amount) {
+        super.setEnergyAmount(amount);
+    }
 
+    @Override
+    public int getEnergyAmount() {
+        return super.getEnergyAmount();
+    }
 
     @Override
     public void onAssembly() {
@@ -101,6 +110,9 @@ public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IO
         }else if (energyST <= energyStorage.getMaxEnergyStored()) {
             energyST = energyStorage.getEnergyStored();
         }
+//        if (getEnergyAmount() >= energyST) {
+//            setEnergyAmount(energyST);
+//        }
 
     }
 }

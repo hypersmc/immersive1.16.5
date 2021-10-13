@@ -68,6 +68,7 @@ public class MinerMBControllerBlockContainer extends Container {
             }
         });
     }
+
     public int getEnergy() {
         return MinerPowerTile.energyST;
 //        return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);

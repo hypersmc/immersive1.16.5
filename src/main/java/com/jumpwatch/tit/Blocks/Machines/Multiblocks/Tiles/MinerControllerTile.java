@@ -4,7 +4,9 @@ import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
 import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockBlock;
 import com.jumpwatch.tit.Registry.ItemRegistry;
+import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.TileSupplier;
+import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -26,7 +28,7 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
     public static final TileSupplier SUPPLIER = MinerControllerTile::new;
 
     public MinerControllerTile(){
-        super(TYPE);
+        super(TileentityRegistry.Miner_controller_tile.get());
     }
 
     @Nonnull
@@ -44,6 +46,7 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
             if (level.getBlockState(getBlockPos()).getValue(MultiblockBlock.ASSEMBLED)) {
                 if (!level.isClientSide) {
                     NetworkHooks.openGui((ServerPlayerEntity) player, this, this.getBlockPos());
+
                 }
                 return ActionResultType.SUCCESS;
             }

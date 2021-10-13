@@ -26,7 +26,7 @@ public class MinerMBControllerBlockScreen extends ContainerScreen<MinerMBControl
     @Override
     protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
 
-        drawString(matrixStack, Minecraft.getInstance().font, "Energy: " + MinerMBController.Energy, 10, 10, 0xffffff);
+        drawString(matrixStack, Minecraft.getInstance().font, "Energy: " + menu.getEnergy(), 10, 10, 0xffffff);
     }
 
 

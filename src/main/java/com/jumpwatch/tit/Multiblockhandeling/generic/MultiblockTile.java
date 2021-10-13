@@ -41,10 +41,18 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
             theinventorstech.attachTile(this);
         }
     }
-
+    private int EnergyUsage;
     private boolean attemptAttach = true;
     private boolean allowAttach = true;
     boolean isSaveDelegate = false;
+
+    public void setEnergyAmount(Integer amount) {
+        assert amount != null;
+        EnergyUsage = amount;
+    }
+    public int getEnergyAmount(){
+        return EnergyUsage;
+    }
 
     public MultiblockTile(@Nonnull TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -113,6 +121,7 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
         onRemoved(false);
         super.setRemoved();
     }
+
 
 
 
