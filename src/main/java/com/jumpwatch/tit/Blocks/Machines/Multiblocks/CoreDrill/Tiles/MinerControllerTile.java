@@ -1,18 +1,16 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseTile;
 import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockBlock;
 import com.jumpwatch.tit.Registry.ItemRegistry;
 import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.TileSupplier;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -34,7 +32,7 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull PlayerEntity player, @Nonnull Hand handIn) {
-        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == ItemRegistry.WRENCH) {
+        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == ItemRegistry.WRENCH.getItem()) {
             if (controller != null) {
                 controller.UpdateBlockStates();
             }

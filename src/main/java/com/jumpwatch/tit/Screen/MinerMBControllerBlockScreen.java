@@ -1,7 +1,5 @@
 package com.jumpwatch.tit.Screen;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.MinerMBController;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.MinerPowerTile;
 import com.jumpwatch.tit.Containers.MinerMBControllerBlockContainer;
 import com.jumpwatch.tit.theinventorstech;
 import com.mojang.blaze3d.matrix.MatrixStack;

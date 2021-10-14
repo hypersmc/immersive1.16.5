@@ -1,6 +1,6 @@
 package com.jumpwatch.tit.Containers;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.MinerPowerTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles.MinerPowerTile;
 import com.jumpwatch.tit.Registry.BlockRegistry;
 import com.jumpwatch.tit.Registry.ContainerRegistry;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
@@ -13,7 +13,6 @@ import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 

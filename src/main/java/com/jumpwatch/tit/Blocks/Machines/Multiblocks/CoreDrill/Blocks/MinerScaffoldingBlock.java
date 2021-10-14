@@ -1,7 +1,7 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseBlock;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.MinerScaffoldingTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles.MinerScaffoldingTile;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;

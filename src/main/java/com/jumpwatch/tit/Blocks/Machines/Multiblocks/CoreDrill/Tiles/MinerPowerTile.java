@@ -1,6 +1,6 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnAssemblyTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnDisassemblyTile;
 import com.jumpwatch.tit.Registry.TileentityRegistry;
@@ -10,7 +10,6 @@ import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -22,7 +21,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MinerPowerBlock.ConnectionState.*;
+import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MinerPowerBlock.ConnectionState.*;
 
 public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile, ITickable {
     private CustomEnergyStorage energyStorage = createEnergy();

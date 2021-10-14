@@ -1,7 +1,6 @@
 package com.jumpwatch.tit.Registry;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.*;
-import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles.*;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityEnergyCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityFluidCable;
 import com.jumpwatch.tit.Tileentity.Cables.TileEntityItemCable;

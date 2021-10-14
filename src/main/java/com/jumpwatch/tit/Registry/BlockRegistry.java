@@ -3,23 +3,19 @@ package com.jumpwatch.tit.Registry;
 import com.jumpwatch.tit.Blocks.*;
 import com.jumpwatch.tit.Blocks.Machines.BlockCrusher;
 import com.jumpwatch.tit.Blocks.Machines.BlockElectronicAssembler;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.*;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.MinerMultiblock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.*;
 import com.jumpwatch.tit.Blocks.Ore.BlockCasseriteOre;
 import com.jumpwatch.tit.Blocks.Ore.BlockCopperOre;
 import com.jumpwatch.tit.Blocks.Ore.BlockRutileOre;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.security.PublicKey;
 import java.util.function.Supplier;
 
 public class BlockRegistry {

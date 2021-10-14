@@ -1,14 +1,11 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Lathe;
 
 import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockBlock;
 
 import javax.annotation.Nonnull;
 
-public class MinerMultiblock extends RectangularMultiblockBlock {
-    public MinerMultiblock(@Nonnull Properties properties) {
-        super(properties);
-    }
-
+public class LatheMultiblock extends RectangularMultiblockBlock {
+    public LatheMultiblock(@Nonnull Properties properties) { super(properties); }
     @Override
     public boolean isGoodForInterior() {
         return true;

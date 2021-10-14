@@ -178,7 +178,7 @@ public class RectangularMultiblockController<ControllerType extends RectangularM
                     if (controller.genericValidator != null) {
                         // anything at all?
                         if (!controller.genericValidator.validate(block)) {
-                            throw new InvalidBlock(block, pos, "generic");
+                            throw new InvalidBlock(block.getBlock(), pos, "generic");
                         } else {
                             break;
                         }

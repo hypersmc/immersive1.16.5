@@ -1,13 +1,12 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseBlock;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MinerScaffoldingBlock;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.*;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MinerScaffoldingBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles.*;
 import com.jumpwatch.tit.Multiblockhandeling.generic.ValidationError;
 import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockController;
 import com.jumpwatch.tit.Utils.Util;
-import com.jumpwatch.tit.Utils.org.joml.Vector3i;
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -22,6 +21,7 @@ import java.util.Set;
 public class MinerMBController extends RectangularMultiblockController<MinerMBController, MinerBaseTile, MinerBaseBlock> {
     public static int Energy;
     private static final Logger LOGGER = LogManager.getLogger();
+    private String name = "Deepcoredrill";
     private final Set<MinerControllerTile> controller = new HashSet<>();
     private final Set<MinerDrillCoreTile> drillcore = new HashSet<>();
     private final Set<MinerDrillDrillTile> drilldrill = new HashSet<>();
@@ -40,22 +40,35 @@ public class MinerMBController extends RectangularMultiblockController<MinerMBCo
 
     private boolean validate() {
         if (controller.isEmpty()){
-            throw new ValidationError("multiblock.error.theinventorstech.no.controller");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.controller",
+                    new TranslationTextComponent(name)));
         }
         if (scaffoldings.isEmpty()) {
-            throw new ValidationError("multiblock.error.theinventorstech.no.scaffolding");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.scaffolding",
+                    new TranslationTextComponent(name)));
+
         }
         if (powerPorts.isEmpty()){
-            throw new ValidationError("multiblock.error.theinventorstech.no.powerport");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.powerport",
+                    new TranslationTextComponent(name)));
         }
         if (itemPort.isEmpty()){
-            throw new ValidationError("multiblock.error.theinventorstech.no.itemport");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.itemport",
+                    new TranslationTextComponent(name)));
         }
         if (drillcore.isEmpty()){
-            throw new ValidationError("multiblock.error.theinventorstech.no.drillcore");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.drillcore",
+                    new TranslationTextComponent(name)));
         }
         if (drilldrill.isEmpty()){
-            throw new ValidationError("multiblock.error.theinventorstech.no.drilldrill");
+            throw new ValidationError(new TranslationTextComponent(
+                    "multiblock.error.theinventorstech.no.drilldrill",
+                    new TranslationTextComponent(name)));
         }
 
         BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable();

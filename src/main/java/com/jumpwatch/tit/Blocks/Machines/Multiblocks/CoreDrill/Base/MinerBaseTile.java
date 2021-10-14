@@ -1,7 +1,6 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.MinerMBController;
-import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.MinerMBController;
 import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockTile;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;

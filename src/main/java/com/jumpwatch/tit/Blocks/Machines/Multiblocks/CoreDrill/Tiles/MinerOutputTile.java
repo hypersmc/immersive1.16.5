@@ -1,7 +1,7 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseTile;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MineItemBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MineItemBlock;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnAssemblyTile;
 import com.jumpwatch.tit.Multiblockhandeling.generic.IOnDisassemblyTile;
 import com.jumpwatch.tit.Registry.TileentityRegistry;
@@ -18,7 +18,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -26,8 +25,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MineItemBlock.PortDirection.INLET;
-import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MineItemBlock.PortDirection.PORT_DIRECTION_ENUM_PROPERTY;
+import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MineItemBlock.PortDirection.INLET;
 
 public class MinerOutputTile extends MinerBaseTile implements INamedContainerProvider, IOnDisassemblyTile, IOnAssemblyTile {
     private ItemStackHandler itemHandler = createHandler();

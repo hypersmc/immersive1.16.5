@@ -1,22 +1,20 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base.MinerBaseBlock;
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Tiles.MinerPowerTile;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Base.MinerBaseBlock;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Tiles.MinerPowerTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 
-import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.Blocks.MinerPowerBlock.ConnectionState.*;
+import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MinerPowerBlock.ConnectionState.*;
 public class MinerPowerBlock extends MinerBaseBlock {
 
     public static MinerPowerBlock INSTANCE;

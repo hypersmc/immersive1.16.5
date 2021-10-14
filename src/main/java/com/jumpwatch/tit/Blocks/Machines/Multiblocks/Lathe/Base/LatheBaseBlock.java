@@ -1,6 +1,6 @@
-package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Base;
+package com.jumpwatch.tit.Blocks.Machines.Multiblocks.Lathe.Base;
 
-import com.jumpwatch.tit.Blocks.Machines.Multiblocks.MinerMBController;
+import com.jumpwatch.tit.Blocks.Machines.Multiblocks.Lathe.LatheMBController;
 import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -11,21 +11,20 @@ import net.minecraft.state.StateContainer;
 
 import javax.annotation.Nonnull;
 
-public class MinerBaseBlock extends RectangularMultiblockBlock<MinerMBController, MinerBaseTile, MinerBaseBlock> {
+public class LatheBaseBlock extends RectangularMultiblockBlock<LatheMBController, LatheBaseTile, LatheBaseBlock> {
     public static final AbstractBlock.Properties PROPERTIES_SOLID = AbstractBlock.Properties.of(Material.METAL).sound(SoundType.METAL).harvestLevel(2).isValidSpawn((a, b, c, d) -> false).noOcclusion();
     public static final AbstractBlock.Properties PROPERTIES_GLASS = AbstractBlock.Properties.of(Material.METAL).sound(SoundType.GLASS).harvestLevel(2).isValidSpawn((a, b, c, d) -> false).noOcclusion();
-
-    public MinerBaseBlock() {
+    public LatheBaseBlock(){
         this(true);
     }
-    public MinerBaseBlock(boolean solid) {
-        super(solid ? PROPERTIES_SOLID :  PROPERTIES_GLASS);
-
+    public LatheBaseBlock(boolean solid) {
+        super(solid ? PROPERTIES_SOLID : PROPERTIES_GLASS);
     }
 
-    public boolean usesMinerState(){
+    public boolean usesLatheState(){
         return false;
     }
+
 
     @Override
     protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
