@@ -8,8 +8,9 @@ import com.jumpwatch.tit.Utils.BlockStates;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
 import com.jumpwatch.tit.Utils.TileSupplier;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.texture.ITickable;
+
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,7 +24,7 @@ import javax.annotation.Nullable;
 
 import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MinerPowerBlock.ConnectionState.*;
 
-public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile, ITickable {
+public class MinerPowerTile extends MinerBaseTile implements IOnAssemblyTile, IOnDisassemblyTile, ITickableTileEntity {
     private CustomEnergyStorage energyStorage = createEnergy();
     private LazyOptional<IEnergyStorage> energys = LazyOptional.of(() -> energyStorage);
     public static TileEntityType<?> TYPE;

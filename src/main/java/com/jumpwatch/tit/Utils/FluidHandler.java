@@ -5,6 +5,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public class FluidHandler implements IFluidHandler {
     public static final FluidHandler INSTANCE = new FluidHandler();
 

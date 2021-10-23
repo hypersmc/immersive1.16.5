@@ -32,7 +32,7 @@ public class MinerControllerTile extends MinerBaseTile implements INamedContaine
     @Nonnull
     @Override
     public ActionResultType onBlockActivated(@Nonnull PlayerEntity player, @Nonnull Hand handIn) {
-        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == ItemRegistry.WRENCH.getItem()) {
+        if (player.isCrouching() && handIn == Hand.MAIN_HAND && player.getMainHandItem().getItem() == ItemRegistry.WRENCH) {
             if (controller != null) {
                 controller.UpdateBlockStates();
             }

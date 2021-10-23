@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemVoltmeter extends Item {
     public ItemVoltmeter() {
         super(new Properties().tab(theinventorsregistry.TIT_Group1).stacksTo(1).setNoRepair());

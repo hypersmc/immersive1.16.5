@@ -3,32 +3,41 @@ package com.jumpwatch.tit.Multiblockhandeling.generic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import static com.jumpwatch.tit.Multiblockhandeling.generic.ConnectedTextureStates.*;
-public class MultiblockBlock<ControllerType extends MultiblockController<ControllerType, TileType, BlockType>, TileType extends MultiblockTile<ControllerType, TileType, BlockType>, BlockType extends MultiblockBlock<ControllerType, TileType, BlockType>> extends DirectionalBlock {
+import net.minecraft.block.AbstractBlock.Properties;
+
+public class MultiblockBlock<ControllerType extends MultiblockController<ControllerType, TileType, BlockType>, TileType extends MultiblockTile<ControllerType, TileType, BlockType>, BlockType extends MultiblockBlock<ControllerType, TileType, BlockType>> extends DirectionalBlock implements IWaterLoggable {
 
     public static final BooleanProperty ASSEMBLED = BooleanProperty.create("assembled");
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public MultiblockBlock(Properties properties) {
         super(properties);
         BlockState defaultState = this.getBlock().defaultBlockState();
         if(usesAssemblyState()) {
             defaultState = defaultState.setValue(ASSEMBLED, false);
+            defaultState = defaultState.setValue(WATERLOGGED, false);
         }
         if (connectedTexture()) {
             defaultState = defaultState.setValue(TOP_CONNECTED_PROPERTY, false);
@@ -37,6 +46,7 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
             defaultState = defaultState.setValue(SOUTH_CONNECTED_PROPERTY, false);
             defaultState = defaultState.setValue(EAST_CONNECTED_PROPERTY, false);
             defaultState = defaultState.setValue(WEST_CONNECTED_PROPERTY, false);
+            defaultState = defaultState.setValue(WATERLOGGED, false);
         }
         this.registerDefaultState(defaultState);
     }
@@ -69,8 +79,15 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
     }
 
     @Override
+    public FluidState getFluidState(BlockState p_204507_1_) {
+        return p_204507_1_.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(p_204507_1_);
+    }
+
+
+    @Override
     protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+        builder.add(WATERLOGGED);
         if(usesAssemblyState()) {
             builder.add(ASSEMBLED);
 
@@ -82,7 +99,6 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
             builder.add(SOUTH_CONNECTED_PROPERTY);
             builder.add(EAST_CONNECTED_PROPERTY);
             builder.add(WEST_CONNECTED_PROPERTY);
-
         }
     }
 
@@ -113,11 +129,19 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
         worldIn.setBlock(pos, state, 2);
     }
 
+    @Override
+    public BlockState updateShape(BlockState p_196271_1_, Direction p_196271_2_, BlockState p_196271_3_, IWorld p_196271_4_, BlockPos p_196271_5_, BlockPos p_196271_6_) {
+        if (p_196271_1_.getValue(WATERLOGGED)) {
+            p_196271_4_.getLiquidTicks().scheduleTick(p_196271_5_, Fluids.WATER, Fluids.WATER.getTickDelay(p_196271_4_));
+        }
+        return super.updateShape(p_196271_1_, p_196271_2_, p_196271_3_, p_196271_4_, p_196271_5_, p_196271_6_);
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
 
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, false);
     }
 
     protected boolean connectToBlock(Block block){

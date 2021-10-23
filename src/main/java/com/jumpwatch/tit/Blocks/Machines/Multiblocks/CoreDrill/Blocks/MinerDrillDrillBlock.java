@@ -8,6 +8,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MinerDrillDrillBlock extends MinerBaseBlock {
     public MinerDrillDrillBlock(Properties properties){
         super();

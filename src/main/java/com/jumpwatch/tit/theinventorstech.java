@@ -3,8 +3,6 @@ package com.jumpwatch.tit;
 import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockController;
 import com.jumpwatch.tit.Multiblockhandeling.generic.MultiblockTile;
 import com.jumpwatch.tit.Registry.*;
-import com.jumpwatch.tit.Render.MaceratorTileRenderer;
-
 import com.jumpwatch.tit.Screen.MinerMBControllerBlockScreen;
 import com.jumpwatch.tit.Screen.assemblerBlockScreen;
 import com.jumpwatch.tit.Screen.maceratorBlockScreen;
@@ -27,7 +25,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -44,10 +41,16 @@ import java.util.HashMap;
 public class theinventorstech
 {
     private static final Logger LOGGER = LogManager.getLogger();
+    public static final boolean devmode = false;
     public static final String MOD_ID = "theinventorstech";
     private static long tick = 0;
 
     public theinventorstech() {
+        if (devmode) {
+            LOGGER.warn("WARNING DEV MODE ACTIVATED");
+            LOGGER.info("Please report to author!");
+        }
+
         LOGGER.info("Starting Registry");
         GeckoLib.initialize();
         theinventorsregistry.register();

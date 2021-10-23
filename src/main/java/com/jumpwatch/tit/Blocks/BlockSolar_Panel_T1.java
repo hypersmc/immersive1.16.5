@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockSolar_Panel_T1 extends Block {
     public BlockSolar_Panel_T1(Properties properties) {
         super(properties);

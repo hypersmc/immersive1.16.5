@@ -4,6 +4,8 @@ import com.jumpwatch.tit.Multiblockhandeling.rectangular.RectangularMultiblockBl
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class LatheMultiblock extends RectangularMultiblockBlock {
     public LatheMultiblock(@Nonnull Properties properties) { super(properties); }
     @Override

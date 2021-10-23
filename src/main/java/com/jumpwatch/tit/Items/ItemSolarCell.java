@@ -6,6 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemSolarCell extends Item {
     public ItemSolarCell() {
         super(new Properties().tab(theinventorsregistry.TIT_Group1).stacksTo(64).setNoRepair());

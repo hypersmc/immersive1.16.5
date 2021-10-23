@@ -9,6 +9,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemWrench extends Item {
     public ItemWrench() {
         super(new Properties().tab(theinventorsregistry.TIT_Group1).stacksTo(1));

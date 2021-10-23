@@ -9,10 +9,13 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MinerControllerBlock extends MinerBaseBlock {
     public MinerControllerBlock(Properties properties) {
         super();
     }
+    
 
     @Nullable
     @Override

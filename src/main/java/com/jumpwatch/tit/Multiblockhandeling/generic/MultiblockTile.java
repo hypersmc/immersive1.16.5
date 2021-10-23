@@ -198,14 +198,15 @@ public abstract class MultiblockTile<ControllerType extends MultiblockController
                 return ActionResultType.SUCCESS;
 
             } else if (player.getMainHandItem().getItem() == Items.STICK) {
-                // no its not getting translated, its debug info, *english*
-                if (controller != null) {
-                    player.sendMessage(new StringTextComponent(getDebugInfo()), Util.NIL_UUID);
-                } else if (!level.isClientSide) {
-                    player.sendMessage(new StringTextComponent("null controller on server"), Util.NIL_UUID);
+                if (theinventorstech.devmode) {
+                    // no its not getting translated, its debug info, *english*
+                    if (controller != null) {
+                        player.sendMessage(new StringTextComponent(getDebugInfo()), Util.NIL_UUID);
+                    } else if (!level.isClientSide) {
+                        player.sendMessage(new StringTextComponent("null controller on server"), Util.NIL_UUID);
+                    }
+                    return ActionResultType.SUCCESS;
                 }
-                return ActionResultType.SUCCESS;
-
             }
 
             }

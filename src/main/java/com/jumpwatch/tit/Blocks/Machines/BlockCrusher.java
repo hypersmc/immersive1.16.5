@@ -26,6 +26,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockCrusher extends DirectionalBlock {
     public BlockCrusher(Properties properties) {
         super(properties);

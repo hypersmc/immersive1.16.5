@@ -8,6 +8,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockSolar_Panel_T1_SubPanels extends Block {
     public BlockSolar_Panel_T1_SubPanels(Properties properties) {
         super(properties);

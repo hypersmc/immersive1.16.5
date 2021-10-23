@@ -10,6 +10,8 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MineItemBlock extends MinerBaseBlock {
     public static MineItemBlock INSTANCE;
     public MineItemBlock(Properties properties){

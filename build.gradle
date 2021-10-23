@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+group = 'com.jumpwatch.theinventorstech' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'theinventorstech'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -54,6 +54,9 @@ minecraft {
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 examplemod {
@@ -134,12 +137,12 @@ dependencies {
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.48')
     implementation fg.deobf("curse.maven:the-one-probe-245211:3319255")
     implementation fg.deobf("curse.maven:jei-238222:3327383")
     implementation fg.deobf("curse.maven:mekanism-268560:3206392")
     implementation fg.deobf("curse.maven:mekanism-generators-268566:3206395")
-    implementation fg.deobf("curse.maven:zerocore-247921:3464525")
+    implementation fg.deobf("curse.maven:patchouli-306770:3459118")
     //implementation fg.deobf("curse.maven:immersive-engineering-231951:3431122")
 
 
@@ -163,12 +166,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "examplemod",
-            "Specification-Vendor": "examplemodsareus",
+            "Specification-Title": "theinventorstech",
+//            "Specification-Vendor": "examplemodsareus",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
+//            "Implementation-Vendor" :"examplemodsareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

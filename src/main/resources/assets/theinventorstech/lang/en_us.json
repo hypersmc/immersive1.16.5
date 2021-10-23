@@ -22,7 +22,6 @@
     "item.theinventorstech.itemcrushedcopper": "Crushed Copper",
     "item.theinventorstech.itemrawcasserite": "Raw Cassiterite",
     "item.theinventorstech.itemrawrutile": "Raw Rutile",
-
     "multiblock.error.theinventorstech.invalid_block.frame": "Invalid block (%s) for frame at %s",
     "multiblock.error.theinventorstech.invalid_block.exterior": "Invalid block (%s) for exterior at %s",
     "multiblock.error.theinventorstech.invalid_block.interior": "Invalid block (%s) for interior at %s",
@@ -37,7 +36,6 @@
     "multiblock.error.theinventorstech.no.scaffolding": "%s require at least one reinforced scaffolding.",
     "multiblock.error.theinventorstech.dimensions": "Dimensions not allowed \nActual: %d, %d, %d, \nMin allowed: %d, %d, %d, \nMax allowed: %d, %d, %d,",
     "multiblock.error.theinventorstech.dangling_internal_part": "There appears to be another %s inside this one, is something wrong? (%d, %d, %d).",
-
     "category.theinventorstech.crusher_recipe": "Crusher ",
     "itemGroup.TITBlocks": "The Inventor's Tech"
 }

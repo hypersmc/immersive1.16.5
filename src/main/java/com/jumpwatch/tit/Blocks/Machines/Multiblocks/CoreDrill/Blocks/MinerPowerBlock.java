@@ -15,6 +15,8 @@ import javax.annotation.Nullable;
 
 
 import static com.jumpwatch.tit.Blocks.Machines.Multiblocks.CoreDrill.Blocks.MinerPowerBlock.ConnectionState.*;
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MinerPowerBlock extends MinerBaseBlock {
 
     public static MinerPowerBlock INSTANCE;

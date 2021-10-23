@@ -5,6 +5,8 @@ import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemRawCasserite extends Item {
     public ItemRawCasserite (){
         super(new Properties().tab(theinventorsregistry.TIT_Group1).stacksTo(64).setNoRepair());
