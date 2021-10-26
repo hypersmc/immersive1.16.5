@@ -253,7 +253,8 @@ public abstract class BlockBaseCable extends Block implements IItemBlock, IWater
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return getState(context.getLevel(), context.getClickedPos(), null).setValue(WATERLOGGED, false);
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return getState(context.getLevel(), context.getClickedPos(), null).setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     public ActionResultType onCableSideForceActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit, @Nullable Direction side){
@@ -285,8 +286,10 @@ public abstract class BlockBaseCable extends Block implements IItemBlock, IWater
     private BlockState getState(World world, BlockPos pos, @Nullable BlockState oldState) {
 
         boolean hasData = false;
+        boolean water = false;
         if (oldState != null && oldState.getBlock() == this) {
             hasData = oldState.getValue(has_data);
+            water = oldState.getValue(WATERLOGGED);
         }
         return defaultBlockState()
                 .setValue(up, isConnected(world,pos,Direction.UP))
@@ -295,7 +298,8 @@ public abstract class BlockBaseCable extends Block implements IItemBlock, IWater
                 .setValue(south, isConnected(world,pos,Direction.SOUTH))
                 .setValue(east, isConnected(world,pos,Direction.EAST))
                 .setValue(west, isConnected(world,pos,Direction.WEST))
-                .setValue(has_data, hasData);
+                .setValue(has_data, hasData)
+                .setValue(WATERLOGGED, water);
     }
 
     public boolean isExtracting(IWorldReader world, BlockPos pos, Direction side) {

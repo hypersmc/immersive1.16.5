@@ -90,7 +90,6 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
         builder.add(WATERLOGGED);
         if(usesAssemblyState()) {
             builder.add(ASSEMBLED);
-
         }
         if (connectedTexture()) {
             builder.add(TOP_CONNECTED_PROPERTY);
@@ -140,8 +139,8 @@ public class MultiblockBlock<ControllerType extends MultiblockController<Control
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, false);
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite()).setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     protected boolean connectToBlock(Block block){

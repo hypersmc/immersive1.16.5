@@ -61,6 +61,8 @@ public class MinerOutputTile extends MinerBaseTile implements INamedContainerPro
     public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
         return null;
     }
+
+    private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
     private ItemStackHandler createHandler() {
         return new ItemStackHandler(3) {
 
@@ -88,7 +90,7 @@ public class MinerOutputTile extends MinerBaseTile implements INamedContainerPro
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return LazyOptional.of(() -> this).cast();
+            return handler.cast();
         }
         return super.getCapability(cap, side);
     }
