@@ -8,21 +8,27 @@
       "name": "DeepcoreDrill",
       "multiblock": {
         "pattern": [
-            ["AAA", "AAA", "AAA"],
-            ["AAB", "A0A", "ACA"],
-            ["ADA", "AFA", "AAA"]
+            ["AAA",
+             "ACA",
+             "AAA"],
+            ["AAA",
+             "AFA",
+             "AAB"],
+            ["AAA",
+             "A0D",
+             "AAA"]
 
 
         ],
         "mapping": {
           "A": "theinventorstech:miner_mb_scaffolding",
-          "B": "theinventorstech:miner_mb_controller[facing=north]",
-          "C": "theinventorstech:miner_mb_item[facing=north]",
-          "D": "theinventorstech:miner_mb_item[facing=north]",
-          "E": "theinventorstech:miner_mb_drillcore",
-          "F": "theinventorstech:miner_mb_drilldrill"
+          "B": "theinventorstech:miner_mb_controller[facing=south]",
+          "C": "theinventorstech:miner_mb_power[facing=up]",
+          "D": "theinventorstech:miner_mb_item[facing=south]",
+          "F": "theinventorstech:miner_mb_drillcore",
+          "0": "theinventorstech:miner_mb_drilldrill"
         },
-        "symetrical": true
+        "symetrical": false
       }
     }
   ]

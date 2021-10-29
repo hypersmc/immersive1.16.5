@@ -43,4 +43,5 @@ public class MinerScaffoldingBlock extends MinerBaseBlock {
         return true;
     }
 
+
 }

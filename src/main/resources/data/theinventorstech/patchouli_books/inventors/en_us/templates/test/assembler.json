@@ -1,0 +1,11 @@
+{
+  "components": [
+    {
+      "type": "inventors:assembler",
+      "item": "minecraft:stone",
+      "framed": true,
+      "x": 128,
+      "y": 128
+    }
+  ]
+}
