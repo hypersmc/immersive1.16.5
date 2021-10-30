@@ -2,6 +2,7 @@ package com.jumpwatch.tit.Registry;
 
 import com.jumpwatch.tit.theinventorstech;
 import net.minecraft.block.Block;
+import net.minecraft.block.OreBlock;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -14,6 +15,8 @@ public class Tagregistry {
 
 
     public static class Blocks {
+        public static final Tags.IOptionalNamedTag<Block> CopperOre = createTag("copper_ore");
+
         private static Tags.IOptionalNamedTag<Block> createTag(String name) {
             return BlockTags.createOptional(new ResourceLocation(theinventorstech.MOD_ID, name));
         }
@@ -24,6 +27,7 @@ public class Tagregistry {
     public static class Items {
         public static final Tags.IOptionalNamedTag<Item> itemironplate = createForgetag("plates/iron");
         public static final Tags.IOptionalNamedTag<Item> Itemironplate = createTag("itemironplate");
+
 
         private static Tags.IOptionalNamedTag<Item> createTag(String name) {
             return ItemTags.createOptional(new ResourceLocation(theinventorstech.MOD_ID, name));

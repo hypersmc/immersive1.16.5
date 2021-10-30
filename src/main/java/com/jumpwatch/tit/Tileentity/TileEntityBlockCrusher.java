@@ -3,24 +3,22 @@ package com.jumpwatch.tit.Tileentity;
 import com.jumpwatch.tit.Registry.RecipeRegistry;
 import com.jumpwatch.tit.Registry.TileentityRegistry;
 import com.jumpwatch.tit.Utils.CustomEnergyStorage;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipeNew;
+import com.jumpwatch.tit.crafting.recipe.MaceratorRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -33,6 +31,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, ITickableTileEntity {
 
@@ -52,129 +51,49 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
             return;
         }
         if (inSlot.isEmpty()) return;
-        CrusherRecipeNew recipe = getRecipe();
-        if (recipe != null){
-            isrunning = true;
-            dowork(recipe);
-        }else{
-            LOGGER.info("no recipe found!");
-            stopwork();
-        }
+        craft();
 
-//        if (this.energyStorage.getEnergyStored() < forevery){
-//            isrunning = false;
-//            return;
-//        }
-//
-//        if (canProcess()) {
-//            processTick();
-//        }
     }
-//    public boolean canProcess(){
-//        // No input
-//        if(itemHandler.getStackInSlot(0).isEmpty()){
-//            isrunning = false;
-//            //Make the progress bar go down if slot is empty and there was progress.
-//            if (!(cookTime == 0)) {
-//                isrunning = false;
-//                cookTime--;
-//            }
-//            return false;
-//        }
-//
-//        // No recipe
-//        CrusherRecipes.CrusherRecipe recipe = CrusherRecipes.findRecipe(itemHandler.getStackInSlot(0));
-//
-//        if(recipe == null) return false;
-//        ItemStack outputSlot = itemHandler.getStackInSlot(1);
-//
-//        // it is missing
-//        // Check recipe output matches the content of the output slot
-//        if (!outputSlot.isEmpty() && !ItemStack.isSame(recipe.getOutput(), outputSlot)) return false;
-//
-//        // No space
-//        if(outputSlot.getCount() + recipe.getOutput().getCount() > outputSlot.getMaxStackSize()) return false;
-//        // Passes all checks
-//        return true;
-//    }
-//    public void processTick(){
-//        cookTime++;
-//        System.out.println(cookTime);
-//        isrunning = true;
-//        //Spend resources
-//        int ener = this.energyStorage.getEnergyStored();
-//        ener -= forevery;
-//        this.energyStorage.setEnergy(ener);
-//        if (cookTime == 100) {
-//            cookTime = 0;
-//            isrunning = false;
-//            doProcess();
-//        }
-//    }
-//    public void doProcess(){
-//        isrunning = false;
-//        itemHandler.insertItem(1, CrusherRecipes.findRecipe(itemHandler.getStackInSlot(0)).getOutput(), false);
-//        itemHandler.insertItem(1, CrusherRecipes.findRecipe(itemHandler.getStackInSlot(0)).getOutput(), false);
-//        itemHandler.extractItem(0, 1, false);
-//
-//    }
-    @Nullable
-    public CrusherRecipeNew getRecipe() {
-        ItemStack inSlot = itemHandler.getStackInSlot(0);
-        LOGGER.info("Trying to fetch recipe!"); //this is checking
-        if (this.level == null || inSlot.isEmpty()){
-            LOGGER.info("slot empty!"); //this is checking
-            return null;
+    public void craft() {
+        Inventory inv = new Inventory(itemHandler.getSlots());
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            inv.setItem(i, itemHandler.getStackInSlot(i));
         }
-        LOGGER.info(this.level.getRecipeManager().getRecipes());
-        LOGGER.info(this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(this.itemHandler), this.level).toString());
-        return this.level.getRecipeManager().getRecipeFor(RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE,new RecipeWrapper(itemHandler), this.level).orElse(null);
-    }
-    private ItemStack getWorkOutput(@Nullable CrusherRecipeNew recipe) {
-
-        if (recipe != null){
-            return recipe.assemble(new RecipeWrapper(itemHandler));
-        }
-        return ItemStack.EMPTY;
-    }
-    private void dowork(CrusherRecipeNew recipe){
-        ItemStack inSlot = itemHandler.getStackInSlot(0);
-        LOGGER.info("Trying to do work.");
-        isrunning = true;
-        assert this.level != null;
-        ItemStack current = inSlot;
-        ItemStack output = getWorkOutput(recipe);
-        if (!current.isEmpty()) {
-            int newCount = current.getCount() + output.getCount();
-            if (!ItemStack.matches(current, output) || newCount > output.getMaxStackSize()){
-                LOGGER.info("Can't do work. E504");
-                stopwork();
-                return;
+        Optional<MaceratorRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeRegistry.Macerator_recipe, inv, level);
+        recipe.ifPresent(iReci -> {
+            cookTime++;
+            System.out.println(cookTime);
+            int ener = this.energyStorage.getEnergyStored();
+            ener -= forevery;
+            this.energyStorage.setEnergy(ener);
+            if (level.getGameTime() % 83 == 0){
+                isrunning = false;
+                check(inv);
             }
-        }
-        if (cookTime < 100)  {
-            isrunning = true;
-            ++cookTime;
-        }
-        if (cookTime >= 100) {
-            isrunning = false;
-            finishwork(recipe, current, output);
-        }
+        });
+
+        //Spend resources
+
     }
+    private void check (IInventory inv) {
+        Optional<MaceratorRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeRegistry.Macerator_recipe, inv, level);
+        recipe.ifPresent(iRecipe -> {
+            LOGGER.info("Recipe found for: " + iRecipe + "!");
+            ItemStack output = iRecipe.getOutput();
+            craftTheItem(output);
+            setChanged();
+            cookTime = 0;
+        });
+    }
+    private void craftTheItem(ItemStack output) {
+        itemHandler.extractItem(0, 1, false);
+        itemHandler.insertItem(1, output, false);
+    }
+
     private void stopwork() {
         cookTime = 0;
     }
-    private void finishwork(CrusherRecipeNew recipe, ItemStack current, ItemStack output){
-        ItemStack inSlot = itemHandler.getStackInSlot(0);
-        ItemStack outSlot = itemHandler.getStackInSlot(0);
-        if (!current.isEmpty()) {
-            current.grow(output.getCount());
-        }else{
-            itemHandler.insertItem(1, output, false);
-        }
-        cookTime = 0;
-        itemHandler.extractItem(0,1, false);
-    }
+
     private CustomEnergyStorage createEnergy() {
         return new CustomEnergyStorage(25000, 32) {
             @Override

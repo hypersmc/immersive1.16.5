@@ -33,11 +33,11 @@ public class maceratorBlockContainer extends Container {
 
       if (tileEntity != null) {
           tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-              this.addSlot(new SlotItemHandler(h, 0, 64, 24));
-              this.addSlot(new SlotItemHandler(h, 1, 84, 24));
+              this.addSlot(new SlotItemHandler(h, 0, 56, 33));
+              this.addSlot(new SlotItemHandler(h, 1, 109, 34));
           });
       }
-      layoutPlayerInventorySlots(10, 70);
+      layoutPlayerInventorySlots(10, 96);
       trackPower();
     }
 
@@ -78,6 +78,9 @@ public class maceratorBlockContainer extends Container {
 
     public int getEnergy() {
         return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getEnergyStored).orElse(0);
+    }
+    public int getEnergylimit(){
+        return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getMaxEnergyStored).orElse(0);
     }
 
     @Override

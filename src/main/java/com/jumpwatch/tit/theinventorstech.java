@@ -8,7 +8,6 @@ import com.jumpwatch.tit.Screen.assemblerBlockScreen;
 import com.jumpwatch.tit.Screen.maceratorBlockScreen;
 import com.jumpwatch.tit.World.Ore.OreGeneration;
 import com.jumpwatch.tit.crafting.recipe.AssemblerRecipes;
-import com.jumpwatch.tit.crafting.recipe.CrusherRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -91,7 +90,7 @@ public class theinventorstech
         RenderRegistry.renderRegistry();
         //Other registry stuff.
         TileentityRegistry.clientSetup();
-        CrusherRecipes.CrusherRecipes();
+        //CrusherRecipes.CrusherRecipes();
         AssemblerRecipes.AssemblerRecipes();
         LOGGER.info("Registered Macerator recipes.");
     }

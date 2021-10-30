@@ -1,15 +1,18 @@
 {
+  "type": "theinventorstech:crusher",
   "conditions": [
     {
       "type": "forge:mod_loaded",
       "modid": "theinventorstech"
     }
   ],
-  "type": "theinventorstech:crusher",
-  "process_time": 100,
-  "ingredient": {
-    "tag": "forge:ores/copper"
-  },
+  "ingredients": [
+    {
+      "tag": "forge:ores/copper"
+    }
+  ],
   "count": 1,
-  "result": "theinventorstech:itemcrushedcopper"
+  "output": {
+    "item": "theinventorstech:itemcrushedcopper"
+  }
 }

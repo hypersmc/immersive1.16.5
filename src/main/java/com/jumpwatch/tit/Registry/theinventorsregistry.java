@@ -23,6 +23,7 @@ public class theinventorsregistry {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
     public static final DeferredRegister<Item> ITEMS = create(ForgeRegistries.ITEMS);
     public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
+
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = create(ForgeRegistries.TILE_ENTITIES);
 
     public static final ItemGroup TIT_Group1 = new ItemGroup("TITBlocks") {
@@ -36,17 +37,14 @@ public class theinventorsregistry {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
-        ContainerRegistry.containerRegistry();
         ITEMS.register(modEventBus);
-        RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
         ItemRegistry.register();
         BlockRegistry.register();
         TileentityRegistry.register();
-        RecipeRegistry.register();
-        ContainerRegistryTypes.register();
-        ITMultiblocks.init();
-
+        RecipeRegistry.register(modEventBus);
+        LOGGER.info("Recipe types registered!");
+        ContainerRegistry.containerRegistry();
     }
 
     private static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {

@@ -30,7 +30,7 @@ public class JEIimplementation implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-        registration.addRecipes(getRecipes(manager, RecipeRegistry.CRUSHER_RECIPE_NEW_I_RECIPE_TYPE), CrusherRecipeCategory.id);
+        registration.addRecipes(getRecipes(manager, RecipeRegistry.Macerator_recipe ), CrusherRecipeCategory.id);
     }
 
     @Override
