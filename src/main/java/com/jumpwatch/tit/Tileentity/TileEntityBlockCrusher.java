@@ -61,25 +61,26 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
         }
         Optional<MaceratorRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeRegistry.Macerator_recipe, inv, level);
         recipe.ifPresent(iReci -> {
+            ItemStack out = iReci.getOutput();
+            if (itemHandler.getStackInSlot(1).equals(out)) return;
+            isrunning = true;
             cookTime++;
             System.out.println(cookTime);
             int ener = this.energyStorage.getEnergyStored();
             ener -= forevery;
             this.energyStorage.setEnergy(ener);
             if (level.getGameTime() % 83 == 0){
-                isrunning = false;
+                isrunning = true;
                 check(inv);
             }
         });
-
-        //Spend resources
-
     }
     private void check (IInventory inv) {
         Optional<MaceratorRecipe> recipe = level.getRecipeManager().getRecipeFor(RecipeRegistry.Macerator_recipe, inv, level);
         recipe.ifPresent(iRecipe -> {
             LOGGER.info("Recipe found for: " + iRecipe + "!");
             ItemStack output = iRecipe.getOutput();
+
             craftTheItem(output);
             setChanged();
             cookTime = 0;
@@ -88,6 +89,7 @@ public class TileEntityBlockCrusher extends TileEntity implements IAnimatable, I
     private void craftTheItem(ItemStack output) {
         itemHandler.extractItem(0, 1, false);
         itemHandler.insertItem(1, output, false);
+        isrunning = false;
     }
 
     private void stopwork() {

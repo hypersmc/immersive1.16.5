@@ -42,16 +42,21 @@ public class maceratorBlockScreen extends ContainerScreen<maceratorBlockContaine
         this.blit(matrixStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight + 25);
         int k = this.getEnergyStoredScaled(75);
         this.blit(matrixStack, this.leftPos + 153, this.topPos + 13, 180, 33, 16, 75 - k);
-//        this.render(this.leftPos + 152, this.topPos + 7, 176, 32, 16, 76 - k);
+        int c = this.getCookProgressScaled(24);
+        this.blit(matrixStack, this.leftPos + 75, this.topPos + 33, 180, 14, c , 17);
+
+        //        this.render(this.leftPos + 152, this.topPos + 7, 176, 32, 16, 76 - k);
     }
+
     private int getEnergyStoredScaled(int pixels) {
         int i = this.menu.getEnergy();
         int j = this.menu.getEnergylimit();
         return i != 0 && j != 0 ? i * pixels / j : 0;
     }
-
-    @Override
-    public void renderToolTip(MatrixStack p_238654_1_, List<? extends IReorderingProcessor> p_238654_2_, int p_238654_3_, int p_238654_4_, FontRenderer font) {
-        super.renderToolTip(p_238654_1_, p_238654_2_, p_238654_3_, p_238654_4_, font);
+    private int getCookProgressScaled(int pixels) {
+        int i = this.menu.getTileEntity().getTileData().getInt("counter");
+        return i != 0 ? i * pixels / 100 : 0;
     }
+
+
 }

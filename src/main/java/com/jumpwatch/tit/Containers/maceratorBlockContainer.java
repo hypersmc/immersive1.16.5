@@ -13,6 +13,7 @@ import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.IntReferenceHolder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -82,6 +83,10 @@ public class maceratorBlockContainer extends Container {
     public int getEnergylimit(){
         return tileEntity.getCapability(CapabilityEnergy.ENERGY).map(IEnergyStorage::getMaxEnergyStored).orElse(0);
     }
+    public TileEntity getTileEntity(){
+        return tileEntity;
+    }
+
 
     @Override
     public boolean stillValid(PlayerEntity p_75145_1_) {
@@ -97,6 +102,7 @@ public class maceratorBlockContainer extends Container {
             ItemStack stack = slot.getItem();
             itemstack = stack.copy();
             if (index == 0) {
+
                 if (!this.moveItemStackTo(stack, 1, 37, true)) {
                     return ItemStack.EMPTY;
                 }
